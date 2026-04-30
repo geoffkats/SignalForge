@@ -1,0 +1,94 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main"]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # --------------------------------------------------------------------------
+  # ML pipeline — features, inference, ingestion
+  # --------------------------------------------------------------------------
+  ml-tests:
+    name: ML pipeline tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ml
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install ML package + test dependencies
+        run: pip install -e ".[dev]" pytest
+
+      - name: Run ML unit tests
+        run: pytest tests/ -v --tb=short -x
+
+  # --------------------------------------------------------------------------
+  # Backend — FastAPI routes, predictor, security
+  # --------------------------------------------------------------------------
+  backend-tests:
+    name: Backend API tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install backend + test dependencies
+        run: pip install -e "." httpx pytest pytest-asyncio
+
+      - name: Copy example env
+        run: cp .env.example .env
+
+      - name: Run backend tests
+        run: pytest tests/ -v --tb=short -x
+        env:
+          SIGNALFORGE_API_KEYS: "[]"
+          SIGNALFORGE_ENVIRONMENT: "test"
+
+  # --------------------------------------------------------------------------
+  # Frontend — TypeScript type-check + production build
+  # --------------------------------------------------------------------------
+  frontend-build:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check + build
+        run: npm run build

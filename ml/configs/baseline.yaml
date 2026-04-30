@@ -1,0 +1,26 @@
+dataset:
+  input_path: data/raw/deepcop/lncap_training.csv
+  processed_path: data/processed/training_table.parquet
+  expected_columns:
+    - perturbation_id
+    - compound_id
+    - compound_name
+    - smiles
+    - gene_symbol
+    - regulation_label
+  checksum_sha256: ""
+
+features:
+  fingerprint_radius: 2
+  fingerprint_bits: 2048
+  gene_vector_strategy: go_fingerprint
+
+training:
+  test_size: 0.2
+  random_state: 42
+  logistic_max_iter: 1000
+  class_weight: balanced
+
+artifacts:
+  model_path: artifacts/models/baseline.joblib
+  manifest_path: artifacts/manifests/latest.json

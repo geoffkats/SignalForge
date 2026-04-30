@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: signalforge-backend
+    environment:
+      SIGNALFORGE_ENVIRONMENT: production
+      SIGNALFORGE_ALLOWED_ORIGINS: '["http://localhost:5173","http://127.0.0.1:5173"]'
+      SIGNALFORGE_REQUESTS_PER_MINUTE: 120
+      SIGNALFORGE_MODEL_MANIFEST_PATH: /ml-artifacts/latest.json
+      SIGNALFORGE_MODEL_VERSION: baseline-logreg-v1
+    volumes:
+      - ./ml/artifacts/manifests/latest.json:/ml-artifacts/latest.json:ro
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=2)"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:8000
+    container_name: signalforge-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
