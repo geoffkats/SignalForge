@@ -1,9 +1,46 @@
 # DeepCOP Data Source Manifest
 
-This folder contains the DeepCOP project-hosted data bundle fetched from the public GitHub repository:
+This folder contains the DeepCOP project-hosted data bundle.
 
-- Repository: https://github.com/godwinwoo/DeepCOP
-- Data directory: https://github.com/godwinwoo/DeepCOP/tree/master/Data
+- Original repository: https://github.com/godwinwoo/DeepCOP
+- Large files hosted on: https://huggingface.co/datasets/geoffkats/signalforge-deepcop
+
+## Downloading the large files (phase1/2 compound fingerprints)
+
+The files `phase1_compounds_morgan_2048.csv` (159 MB), `phase2_compounds_morgan_2048.csv`,
+and the `.rar` archives are excluded from git. Download them with:
+
+```bash
+pip install huggingface_hub
+
+python - <<'EOF'
+from huggingface_hub import hf_hub_download
+import shutil, pathlib
+
+dest = pathlib.Path("ml/data/raw/deepcop")
+dest.mkdir(parents=True, exist_ok=True)
+
+for filename in [
+    "phase1_compounds_morgan_2048.csv",
+    "phase2_compounds_morgan_2048.csv",
+    "DESeq2results.rar",
+    "phase1_compounds_morgan_2048.rar",
+    "phase2_compounds_morgan_2048.rar",
+]:
+    path = hf_hub_download(
+        repo_id="geoffkats/signalforge-deepcop",
+        filename=filename,
+        repo_type="dataset",
+        local_dir=str(dest),
+    )
+    print(f"Downloaded: {path}")
+EOF
+```
+
+Or use the helper script from the repo root:
+```bash
+python scripts/upload_to_huggingface.py --username YOUR_HF_USERNAME --token hf_...
+```
 
 ## Files fetched from DeepCOP
 
