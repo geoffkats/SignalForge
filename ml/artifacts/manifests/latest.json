@@ -1,0 +1,34 @@
+{
+  "model_version": "baseline-logreg-v1",
+  "algorithm": "Morgan fingerprint (2048-bit, r=2) + LINCS L1000 GO-term gene fingerprint (978 genes x 1107 GO terms) + logistic regression",
+  "artifact_path": "artifacts\\models\\baseline.joblib",
+  "processed_dataset_path": "data\\processed\\training_table.parquet",
+  "metrics": {
+    "0": {
+      "precision": 0.45324675324675323,
+      "recall": 0.4950354609929078,
+      "f1-score": 0.4732203389830508,
+      "support": 705.0
+    },
+    "1": {
+      "precision": 0.5669099756690997,
+      "recall": 0.5253664036076663,
+      "f1-score": 0.545348156816852,
+      "support": 887.0
+    },
+    "accuracy": 0.5119346733668342,
+    "macro avg": {
+      "precision": 0.5100783644579265,
+      "recall": 0.5102009323002871,
+      "f1-score": 0.5092842478999514,
+      "support": 1592.0
+    },
+    "weighted avg": {
+      "precision": 0.5165754456391033,
+      "recall": 0.5119346733668342,
+      "f1-score": 0.5134071319595469,
+      "support": 1592.0
+    }
+  },
+  "status": "trained"
+}

@@ -13,9 +13,8 @@ dist/
 # Environment
 .env
 
-# ML artifacts
-ml/artifacts/models/
-ml/artifacts/manifests/
+# ML artifacts — large neural network weights should be stored externally
+# The baseline LogisticRegression model (25 KB) is committed directly
 ml/data/processed/*.parquet
 
 # Large raw data files (>50 MB) — obtain via ml/data/raw/deepcop/SOURCE.md
