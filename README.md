@@ -2,7 +2,7 @@
 
 > Molecule-to-transcriptome intelligence — built on the DeepCOP paper (PMID 31504186).
 
-[![CI](https://github.com/your-org/signalforge/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/signalforge/actions/workflows/ci.yml)
+[![CI](https://github.com/geoffkats/SignalForge/actions/workflows/ci.yml/badge.svg)](https://github.com/geoffkats/SignalForge/actions/workflows/ci.yml)
 
 SignalForge is a translational analytics platform that predicts how small molecules perturb gene expression and ranks candidate compounds against a desired therapeutic signature — turning transcriptomic reasoning into a reproducible, auditable, API-driven workflow.
 
@@ -29,7 +29,7 @@ SignalForge is a translational analytics platform that predicts how small molecu
 ┌──────────────────────────▼──────────────────────────────────────┐
 │  ML pipeline (ml/)                                              │
 │  Data: DeepCOP DESeq2 + LINCS L1000 GO-term fingerprints        │
-│  Features: Morgan-2048 (RDKit) + GO-term gene vectors (978×1107)│
+  │  Features: Morgan-2048 (RDKit) + GO-term gene vectors (978 genes × 1107 GO terms, hash fallback for OOV)
 │  Model: LogisticRegression (class_weight=balanced, sklearn)     │
 │  Macro F1: 0.51  |  Down-recall: 0.50  |  Up-recall: 0.53      │
 └─────────────────────────────────────────────────────────────────┘

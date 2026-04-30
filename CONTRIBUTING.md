@@ -74,6 +74,7 @@ If your change touches the ML pipeline or datasets:
 - Prefer deterministic preprocessing scripts over manual edits.
 - Preserve checksum or provenance safeguards when adding training inputs.
 - Clearly state whether metrics are from placeholder logic or a trained artifact.
+- Large data files (>50 MB) must be hosted on HuggingFace (`Geoffkats/signalforge-deepcop`) — **do not commit them to git**. Update `ml/data/raw/deepcop/SOURCE.md` with download instructions.
 
 ## Security Reporting
 

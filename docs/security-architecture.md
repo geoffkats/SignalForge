@@ -22,8 +22,10 @@ Biotech tools fail badly when they blur experimentation, provenance, and deploym
 
 ## Recommended next security upgrades
 
-1. Replace in-memory rate limiting with Redis-backed quotas.
-2. Add signed model manifests and artifact hashing.
-3. Separate demo predictors from trained production models.
+1. Replace in-memory rate limiting with Redis-backed quotas (`fastapi-limiter` + Redis).
+2. Add signed model manifests and artifact hashing (cosign or SLSA attestation).
+3. Wire the trained `baseline.joblib` model into the backend predictor to replace the deterministic heuristic.
 4. Add structured audit logging to PostgreSQL or an append-only store.
 5. Add role-based access control for batch screening and dataset upload flows.
+6. Hash API keys before storage; implement key rotation without downtime.
+7. Validate SMILES input server-side with RDKit before passing to the ML pipeline.

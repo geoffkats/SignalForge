@@ -2,6 +2,9 @@
 
 > Molecule-to-transcriptome intelligence platform.  
 > Built from the DeepCOP paper (PMID 31504186 · Bioinformatics 2020 36(3):813-818).
+>
+> **GitHub:** https://github.com/geoffkats/SignalForge  
+> **Large data files:** https://huggingface.co/datasets/Geoffkats/signalforge-deepcop
 
 ---
 
@@ -141,7 +144,7 @@ ai-project/
 │   │   ├── models/             Trained model joblib files
 │   │   └── manifests/          JSON training manifest (metrics, versions, paths)
 │   ├── pyproject.toml
-│   └── .venv/                  (git-ignored) Python 3.10 virtual environment
+│   └── .venv/                  (git-ignored) Python 3.12 virtual environment
 │
 └── docs/
     ├── deepcop-project-brief.md
@@ -244,35 +247,35 @@ Converts a SMILES string to a **Morgan circular fingerprint** (ECFP-style) bit v
 
 **Why Morgan fingerprints?** They are the industry standard for encoding molecular structure as a fixed-length bit vector. Each bit represents the presence of a specific circular substructure around an atom. Two molecules with similar Morgan fingerprints share similar local chemistry.
 
-#### `gene_symbol_to_vector(gene_symbol, width=64)`
+#### `gene_symbol_to_vector(gene_symbol, width=1107)`
 
-Converts a gene symbol string to a **hash-based embedding vector**.
+Converts a gene symbol string to a **GO-term binary vector** (or SHA-256 hash fallback for out-of-vocabulary genes).
 
-- Computes SHA-256 of the uppercase gene symbol.
-- Interprets the 32-byte digest as 32 uint8 values.
-- Resizes (via `np.resize`) to `width=64` floats, then normalises to [0, 1] by dividing by 255.
-- Returns `np.ndarray[float32]` of shape `(64,)`.
+- Loads `go_fingerprints.csv` once at import time (978 LINCS landmark genes × 1107 GO-term columns).
+- If the gene symbol appears in the GO matrix (case-insensitive lookup), returns that row as a `float32` vector of shape `(1107,)`.
+- If the gene is **not** in the landmark set, falls back to a length-normalised SHA-256 hash embedding: 32 uint8 bytes → normalised to [0, 1] → `np.resize` to `(1107,)` so shapes are always consistent.
+- Returns `np.ndarray[float32]` of shape `(1107,)`.
 
-**Why hash embedding?** It gives every gene a unique, deterministic, and stable representation without needing a pre-trained gene embedding table. It is fast, works for any gene symbol, and is reproducible across environments. The main limitation is that it encodes no biological knowledge — purely an identifier hash. See [Section 11](#11-known-limitations-and-upgrade-path) for upgrade options (GO-term vectors, ESM protein embeddings, etc.).
+**Why GO-term vectors?** Each dimension represents the presence of a specific Gene Ontology annotation for that gene, encoding real biological function. The 978 × 1107 matrix comes directly from the DeepCOP repository. The hash fallback ensures the model can still generate a feature vector for novel genes not in the landmark set.
 
 #### `build_feature_table(frame, radius, n_bits)`
 
 Builds the full feature matrix from a DataFrame.
 
 - Stacks all Morgan fingerprints → shape `(N, 2048)`.
-- Stacks all gene hash vectors → shape `(N, 64)`.
-- Concatenates horizontally → shape `(N, 2112)`.
+- Stacks all GO-term gene vectors → shape `(N, 1107)`.
+- Concatenates horizontally → shape `(N, 3155)`.
 - Maps `regulation_label` column: `"up" → 1`, `"down" → 0`.
 - Returns `(features: np.ndarray, labels: np.ndarray, cleaned_frame: DataFrame)`.
 
 **Final feature vector layout:**
 
 ```
-[  bit_0, bit_1, ..., bit_2047,  gene_0, gene_1, ..., gene_63  ]
- |<---------- Morgan 2048 -------->| |<----- Gene hash 64 ----->|
+[  bit_0, bit_1, ..., bit_2047,  go_0, go_1, ..., go_1106  ]
+ |<---------- Morgan 2048 -------->| |<-- GO-term 1107 ------>|
 ```
 
-Total dimensions: **2,112 per sample.**
+Total dimensions: **3,155 per sample.**
 
 ---
 
@@ -410,7 +413,7 @@ dataset:
 features:
   fingerprint_radius: 2                             # ECFP4 equivalent
   fingerprint_bits: 2048
-  gene_vector_strategy: symbol_hash                 # currently only strategy implemented
+  gene_vector_strategy: go_fingerprint               # uses GO-term matrix; falls back to hash for OOV genes
 
 training:
   test_size: 0.2
@@ -449,14 +452,14 @@ Trained on: LNCaP RNAseq DESeq2 data — Enzalutamide vs. control, |log2FC| > 0.
 |---|---|
 | Training samples | 6,366 (80% of 7,958) |
 | Test samples | 1,592 (20% of 7,958) |
-| Features per sample | 2,112 (2048 Morgan + 64 gene hash) |
+| Features per sample | 3,155 (2048 Morgan + 1107 GO-term gene vector) |
 | Algorithm | Logistic Regression (L2, max_iter=500) |
 | Overall accuracy | 55.3% |
 | Up-regulation recall | 94.9% |
 | Down-regulation recall | 5.4% |
 | Model file size | ~17 KB |
 
-**Interpretation:** The model above chance but shows strong class imbalance in predictions — it almost always predicts "up". This is expected because all 7,958 samples have the *same* compound (Enzalutamide), meaning the Morgan fingerprint is constant across all rows. The model has no structural signal to differentiate between genes; it only learns from the gene hash embedding. This will improve dramatically once multi-compound data is added.
+**Interpretation:** The model is above chance but shows strong class imbalance in predictions — it almost always predicts "up". This is expected because all 7,958 samples have the *same* compound (Enzalutamide), meaning the Morgan fingerprint is constant across all rows. The model differentiates between genes via their GO-term vectors, but without compound variation the structural signal is limited. Performance will improve dramatically once multi-compound LINCS data is added.
 
 ---
 
@@ -502,7 +505,7 @@ All configuration comes from **environment variables** with the `SIGNALFORGE_` p
 | `SIGNALFORGE_REQUESTS_PER_MINUTE` | `60` | Sliding-window rate limit per client IP + key |
 | `SIGNALFORGE_MAX_GENES_PER_REQUEST` | `64` | Hard cap on genes per `/predict/gene-effect` call |
 | `SIGNALFORGE_MAX_SIGNATURE_GENES` | `256` | Hard cap on total genes in a reverse-signature query |
-| `SIGNALFORGE_MODEL_VERSION` | `"baseline-heuristic-v0"` | Version string echoed in responses |
+| `SIGNALFORGE_MODEL_VERSION` | `"baseline-logreg-v1"` | Version string echoed in responses |
 
 Settings are loaded once and cached with `@lru_cache` — changing env vars requires a server restart.
 
@@ -777,17 +780,26 @@ npm run dev                 # starts on http://localhost:5173
 
 All raw data lives under `ml/data/raw/deepcop/`. Nothing in that folder should be modified manually — always regenerate via `prepare_deepcop.py`.
 
-| File | Origin | Size | Used for |
-|---|---|---|---|
-| `DESeq2results.csv` | DeepCOP GitHub repo | ~11 MB | Primary training label source |
-| `go_fingerprints.csv` | DeepCOP GitHub repo | ~4 MB | Gene GO-term feature matrix (978 genes × GO terms) |
-| `landmark_genes.json` | DeepCOP GitHub repo | ~60 KB | Entrez ID ↔ gene symbol mapping |
-| `phase1_compounds_morgan_2048.csv` | DeepCOP GitHub repo | ~47 MB | Pre-computed fingerprints for LINCS Phase 1 compounds |
-| `phase2_compounds_morgan_2048.csv` | DeepCOP GitHub repo | Similar | Phase 2 |
-| `LNCAPdrugs.csv` | DeepCOP GitHub repo | ~200 B | Drug list for LNCaP experiments |
-| `Phase1_Cell_Line_Metadata.txt` | DeepCOP GitHub repo | ~4 KB | Cell line annotations |
-| `Phase2_Cell_Line_Metadata.txt` | DeepCOP GitHub repo | ~4 KB | Cell line annotations |
-| `lncap_training.csv` | Generated by `prepare_deepcop.py` | ~500 KB | Actual training input |
+The two large Morgan fingerprint CSVs and the RAR archives are **not committed to git**. Download them from HuggingFace:
+
+```python
+from huggingface_hub import hf_hub_download
+hf_hub_download(repo_id="Geoffkats/signalforge-deepcop", repo_type="dataset",
+                filename="phase1_compounds_morgan_2048.csv",
+                local_dir="ml/data/raw/deepcop")
+```
+
+| File | Origin | Size | Used for | Location |
+|---|---|---|---|---|
+| `DESeq2results.csv` | DeepCOP GitHub repo | ~11 MB | Primary training label source | git-tracked |
+| `go_fingerprints.csv` | DeepCOP GitHub repo | ~4 MB | Gene GO-term feature matrix (978 genes × 1107 GO terms) | git-tracked |
+| `landmark_genes.json` | DeepCOP GitHub repo | ~60 KB | Entrez ID ↔ gene symbol mapping | git-tracked |
+| `phase1_compounds_morgan_2048.csv` | DeepCOP GitHub repo | ~159 MB | Pre-computed fingerprints for LINCS Phase 1 compounds | **HuggingFace** |
+| `phase2_compounds_morgan_2048.csv` | DeepCOP GitHub repo | ~14 MB | Phase 2 compound fingerprints | **HuggingFace** |
+| `LNCAPdrugs.csv` | DeepCOP GitHub repo | ~200 B | Drug list for LNCaP experiments | git-tracked |
+| `Phase1_Cell_Line_Metadata.txt` | DeepCOP GitHub repo | ~4 KB | Cell line annotations | git-tracked |
+| `Phase2_Cell_Line_Metadata.txt` | DeepCOP GitHub repo | ~4 KB | Cell line annotations | git-tracked |
+| `lncap_training.csv` | Generated by `prepare_deepcop.py` | ~500 KB | Actual training input | generated |
 
 ### Processed Data
 
@@ -802,7 +814,7 @@ All raw data lives under `ml/data/raw/deepcop/`. Nothing in that folder should b
 | `ml/artifacts/models/baseline.joblib` | Serialised `sklearn.LogisticRegression` model (~17 KB) |
 | `ml/artifacts/manifests/latest.json` | Training manifest with metrics, version, and artifact paths |
 
-Both are listed in `.gitignore` and should be stored separately (e.g., S3, GCS, DVC) for team workflows.
+Both are listed in `.gitignore` and should be stored separately (e.g., S3, GCS, DVC, or reproduced locally by running `signalforge-ml train`) for team workflows.
 
 ---
 
@@ -887,7 +899,7 @@ SIGNALFORGE_API_KEYS=["your-key-here"]
 SIGNALFORGE_REQUESTS_PER_MINUTE=60
 SIGNALFORGE_MAX_GENES_PER_REQUEST=64
 SIGNALFORGE_MAX_SIGNATURE_GENES=256
-SIGNALFORGE_MODEL_VERSION=baseline-heuristic-v0
+SIGNALFORGE_MODEL_VERSION=baseline-logreg-v1
 SIGNALFORGE_MODEL_MANIFEST_PATH=../ml/artifacts/manifests/latest.json
 ```
 
@@ -908,8 +920,9 @@ Copy `frontend/.env.example` to `frontend/.env`.
 
 ### Prerequisites
 
-- Python 3.10 or 3.11
-- Node.js 20+
+- Python 3.12
+- Node.js 22+
+- RDKit (installed automatically via pip)
 - PowerShell (Windows) or Bash (Linux/macOS)
 
 ### 1 — ML pipeline
@@ -972,7 +985,7 @@ npm run dev
 |---|---|---|
 | Only Enzalutamide data | VPC compound SMILES not available in DESeq2 file | Add SMILES to `DRUG_SMILES` in `prepare_deepcop.py` |
 | Poor down-regulation recall (5%) | Class imbalance + single compound | Use `class_weight='balanced'` + multi-drug data |
-| Hash gene embeddings carry no biology | No trained gene representation | Replace with GO-term vectors, ESM-2 protein embeddings, or gene2vec |
+| Gene hash fallback for OOV genes | GO matrix only covers 978 landmark genes | Expand gene coverage or use ESM-2 protein embeddings |
 | Placeholder predictor in backend | `predictor.py` not yet wired to `baseline.joblib` | Implement joblib-load path + RDKit feature computation in predictor service |
 | No LINCS L1000 full data | GEO files are 100+ GB and require NCBI account | Download per `SOURCE.md` instructions, retrain on full LINCS corpus |
 | In-memory rate limiting | Does not scale to multiple backend replicas | Switch to Redis-backed rate limiter |
@@ -983,7 +996,7 @@ npm run dev
 2. **Add VPC compound SMILES** — immediately expands training diversity from 1 to 5 compounds.
 3. **Add `class_weight='balanced'`** to `LogisticRegression` — fixes recall asymmetry.
 4. **Download full LINCS L1000 data** from GEO (see `ml/data/raw/deepcop/SOURCE.md`) — enables training at full DeepCOP scale (~500K perturbations).
-5. **Replace gene hash with GO-term vectors** — the `go_fingerprints.csv` file is already present; use it in `build_feature_table`.
+5. **Expand gene coverage** — GO matrix covers 978 LINCS landmark genes; for novel genes, consider ESM-2 protein embeddings instead of the SHA-256 hash fallback.
 6. **Swap LogisticRegression for a neural network** — the original DeepCOP architecture is a simple feedforward net; a 3-layer MLP with dropout would match the paper's performance.
 
 ---
