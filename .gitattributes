@@ -1,0 +1,2 @@
+ml/data/raw/deepcop/*.csv filter=lfs diff=lfs merge=lfs -text
+ml/data/raw/deepcop/*.rar filter=lfs diff=lfs merge=lfs -text

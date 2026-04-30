@@ -17,8 +17,3 @@ dist/
 ml/artifacts/models/
 ml/artifacts/manifests/
 ml/data/processed/*.parquet
-
-# Large raw data files (>50 MB) — obtain via ml/data/raw/deepcop/SOURCE.md
-ml/data/raw/deepcop/phase1_compounds_morgan_2048.csv
-ml/data/raw/deepcop/phase2_compounds_morgan_2048.csv
-ml/data/raw/deepcop/*.rar
