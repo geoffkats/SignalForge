@@ -3,7 +3,7 @@
 This folder contains the DeepCOP project-hosted data bundle.
 
 - Original repository: https://github.com/godwinwoo/DeepCOP
-- Large files hosted on: https://huggingface.co/datasets/geoffkats/signalforge-deepcop
+- Large files hosted on: https://huggingface.co/datasets/Geoffkats/signalforge-deepcop
 
 ## Downloading the large files (phase1/2 compound fingerprints)
 
@@ -15,7 +15,7 @@ pip install huggingface_hub
 
 python - <<'EOF'
 from huggingface_hub import hf_hub_download
-import shutil, pathlib
+import pathlib
 
 dest = pathlib.Path("ml/data/raw/deepcop")
 dest.mkdir(parents=True, exist_ok=True)
@@ -28,7 +28,7 @@ for filename in [
     "phase2_compounds_morgan_2048.rar",
 ]:
     path = hf_hub_download(
-        repo_id="geoffkats/signalforge-deepcop",
+        repo_id="Geoffkats/signalforge-deepcop",
         filename=filename,
         repo_type="dataset",
         local_dir=str(dest),
