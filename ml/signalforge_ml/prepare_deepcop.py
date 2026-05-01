@@ -2,20 +2,23 @@
 prepare_deepcop.py – Bridge DeepCOP LNCaP DESeq2 results → SignalForge training CSV.
 
 Input files (all under data/raw/deepcop/):
-  DESeq2results.csv   – Drug, geneName, log2FoldChange, padj no NA, pvalue
-  go_fingerprints.csv – gene × GO-term binary matrix (978 landmark genes)
+  DESeq2results.csv          – Drug, geneName, log2FoldChange, padj no NA, pvalue
+  go_fingerprints.csv        – gene × GO-term binary matrix (978 landmark genes)
+  inhouse_morgan_2048.csv    – Pre-computed 2048-bit Morgan FPs for in-house VPC drugs
+                               (mol column = drug name, fps0-fps2047 = fingerprint bits)
 
 Output:
-  data/raw/deepcop/lncap_training.csv
-  Columns: perturbation_id, compound_id, compound_name, smiles, gene_symbol, regulation_label
+  data/raw/deepcop/lncap_multidrug_landmark.csv
+  Columns: perturbation_id, compound_id, compound_name, smiles, gene_symbol,
+           regulation_label, log2fc
 
 Label strategy:
-  UP   : log2FoldChange >  FC_THRESHOLD
-  DOWN : log2FoldChange < -FC_THRESHOLD
-  Neutral rows (|log2FC| ≤ FC_THRESHOLD) are discarded.
+  UP   : log2FoldChange > 0
+  DOWN : log2FoldChange < 0  (ties are dropped)
+  All landmark genes are kept; |log2FC| is stored for use as sample weights.
 
-Only drugs with a valid entry in DRUG_SMILES are included.
-Add VPC compound SMILES below once sourced from the original publications.
+Drugs are sourced from DRUG_SMILES (SMILES available → RDKit Morgan FP at train time)
+or DRUG_PRECOMPUTED (pre-computed FPs in inhouse_morgan_2048.csv → smiles='PRECOMPUTED').
 """
 from __future__ import annotations
 
@@ -28,21 +31,17 @@ import pandas as pd
 # ---------------------------------------------------------------------------
 # Known-drug SMILES map
 # Enzalutamide (MDV3100) – ChEMBL1346080, PubChem CID 15951529
-# Molecular formula C21H16F4N4O2S, MW 464.44
-# IUPAC: 4-[3-[4-cyano-3-(trifluoromethyl)phenyl]-5,5-dimethyl-4-oxo-2-
-#         thioxoimidazolidin-1-yl]-2-fluoro-N-methylbenzamide
 # ---------------------------------------------------------------------------
 DRUG_SMILES: dict[str, str] = {
     "Enzalutamide": "CC1(C)C(=O)N(c2ccc(C#N)cc2C(F)(F)F)C(=S)N1c3ccc(C(=O)NC)cc3F",
-    # Uncomment and fill SMILES when sourced from publication supplementaries:
-    # "VPC13789":   "...",
-    # "VPC14449":   "...",
-    # "VPC17005":   "...",
-    # "VPC220010":  "...",
 }
 
-# Absolute log2FC required to call up / down
-FC_THRESHOLD: float = 0.5
+# Drugs whose Morgan FPs are pre-computed in inhouse_morgan_2048.csv.
+# smiles column will be set to 'PRECOMPUTED'; features.py reads the FP directly.
+DRUG_PRECOMPUTED: set[str] = {"VPC14449", "VPC17005"}
+
+# Absolute log2FC required to call up / down (0 = keep all, no neutral band)
+FC_THRESHOLD: float = 0.0
 
 
 def prepare(
@@ -74,25 +73,27 @@ def prepare(
     print(f"[INFO] Loaded {len(df):,} rows from {deseq2_path.name}")
 
     # ------------------------------------------------------------------
-    # 2. Drop drugs without SMILES
+    # 2. Keep drugs that have SMILES OR pre-computed Morgan FPs
     # ------------------------------------------------------------------
+    known_drugs = set(DRUG_SMILES.keys()) | DRUG_PRECOMPUTED
     all_drugs = set(df["drug"].unique())
-    known_drugs = set(DRUG_SMILES.keys())
     missing_drugs = all_drugs - known_drugs
     if missing_drugs:
         print(
-            f"[WARN] No SMILES for: {sorted(missing_drugs)} — these rows are excluded.\n"
-            f"       Add entries to DRUG_SMILES in prepare_deepcop.py to include them."
+            f"[WARN] No SMILES or pre-computed FP for: {sorted(missing_drugs)} — excluded.\n"
+            f"       Add to DRUG_SMILES or DRUG_PRECOMPUTED in prepare_deepcop.py."
         )
     df = df[df["drug"].isin(known_drugs)].copy()
     if df.empty:
         raise RuntimeError(
-            "No rows remain after SMILES filter.\n"
-            "Add at least one drug's SMILES to DRUG_SMILES in prepare_deepcop.py."
+            "No rows remain after drug filter.\n"
+            "Add at least one drug to DRUG_SMILES or DRUG_PRECOMPUTED."
         )
 
     # ------------------------------------------------------------------
     # 3. Apply fold-change threshold → regulation label
+    #    Rows with |log2FC| <= fc_threshold are discarded (neutral zone).
+    #    At fc_threshold=0 only exact ties (log2FC==0) are dropped.
     # ------------------------------------------------------------------
     before = len(df)
     df = df[df["log2fc"].abs() > fc_threshold].copy()
@@ -121,7 +122,7 @@ def prepare(
         )
 
     # ------------------------------------------------------------------
-    # 5. Validate SMILES with RDKit
+    # 5. Validate SMILES-based drugs with RDKit
     # ------------------------------------------------------------------
     try:
         from rdkit import Chem  # type: ignore
@@ -139,10 +140,14 @@ def prepare(
 
     # ------------------------------------------------------------------
     # 6. Build required columns
+    #    smiles = actual SMILES string for DRUG_SMILES drugs,
+    #             'PRECOMPUTED' sentinel for DRUG_PRECOMPUTED drugs.
     # ------------------------------------------------------------------
     df = df.copy()
     df["compound_name"] = df["drug"]
-    df["smiles"] = df["drug"].map(DRUG_SMILES)
+    df["smiles"] = df["drug"].map(
+        {**DRUG_SMILES, **{d: "PRECOMPUTED" for d in DRUG_PRECOMPUTED}}
+    )
     df["compound_id"] = df["drug"].apply(
         lambda d: "BRD-" + hashlib.md5(d.encode()).hexdigest()[:8].upper()
     )
@@ -158,6 +163,7 @@ def prepare(
             "smiles",
             "gene_symbol",
             "regulation_label",
+            "log2fc",
         ]
     ].reset_index(drop=True)
 
@@ -181,9 +187,7 @@ if __name__ == "__main__":
     prepare(
         deseq2_path=root / "data/raw/deepcop/DESeq2results.csv",
         go_path=root / "data/raw/deepcop/go_fingerprints.csv",
-        output_path=root / "data/raw/deepcop/lncap_training.csv",
-        # Landmark gene filter disabled: DESeq2 captures all coding genes,
-        # not just the 978 L1000 landmark genes. Hash-based gene embeddings
-        # work for any gene symbol so no restriction is needed.
-        require_landmark=False,
+        output_path=root / "data/raw/deepcop/lncap_multidrug_landmark.csv",
+        require_landmark=True,
+        fc_threshold=0.25,
     )

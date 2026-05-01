@@ -7,7 +7,12 @@ import pandas as pd
 from signalforge_ml.security import verify_checksum
 
 
-def ingest_lincs_csv(input_path: str | Path, expected_columns: list[str], checksum_sha256: str = "") -> pd.DataFrame:
+def ingest_lincs_csv(
+    input_path: str | Path,
+    expected_columns: list[str],
+    checksum_sha256: str = "",
+    optional_columns: list[str] | None = None,
+) -> pd.DataFrame:
     input_path = Path(input_path)
     if not input_path.exists():
         raise FileNotFoundError(f"Dataset not found: {input_path}")
@@ -18,4 +23,9 @@ def ingest_lincs_csv(input_path: str | Path, expected_columns: list[str], checks
     if missing:
         raise ValueError(f"Dataset missing required columns: {missing}")
 
-    return frame[expected_columns].copy()
+    keep = list(expected_columns)
+    for col in (optional_columns or []):
+        if col in frame.columns:
+            keep.append(col)
+
+    return frame[keep].copy()

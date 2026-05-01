@@ -1,33 +1,33 @@
 {
   "model_version": "baseline-logreg-v1",
-  "algorithm": "Morgan fingerprint (2048-bit, r=2) + LINCS L1000 GO-term gene fingerprint (978 genes x 1107 GO terms) + logistic regression",
+  "algorithm": "Morgan fingerprint (LNCAPcorr-selected bits) + LINCS L1000 GO-term gene fingerprint (978 genes x 1107 GO terms) + random forest",
   "artifact_path": "artifacts\\models\\baseline.joblib",
   "processed_dataset_path": "data\\processed\\training_table.parquet",
   "metrics": {
     "0": {
-      "precision": 0.45324675324675323,
-      "recall": 0.4950354609929078,
-      "f1-score": 0.4732203389830508,
-      "support": 705.0
+      "precision": 0.7076923076923077,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.6865671641791045,
+      "support": 69.0
     },
     "1": {
-      "precision": 0.5669099756690997,
-      "recall": 0.5253664036076663,
-      "f1-score": 0.545348156816852,
-      "support": 887.0
+      "precision": 0.7125,
+      "recall": 0.75,
+      "f1-score": 0.7307692307692307,
+      "support": 76.0
     },
-    "accuracy": 0.5119346733668342,
+    "accuracy": 0.7103448275862069,
     "macro avg": {
-      "precision": 0.5100783644579265,
-      "recall": 0.5102009323002871,
-      "f1-score": 0.5092842478999514,
-      "support": 1592.0
+      "precision": 0.7100961538461539,
+      "recall": 0.7083333333333333,
+      "f1-score": 0.7086681974741675,
+      "support": 145.0
     },
     "weighted avg": {
-      "precision": 0.5165754456391033,
-      "recall": 0.5119346733668342,
-      "f1-score": 0.5134071319595469,
-      "support": 1592.0
+      "precision": 0.7102122015915119,
+      "recall": 0.7103448275862069,
+      "f1-score": 0.7097351439091016,
+      "support": 145.0
     }
   },
   "status": "trained"

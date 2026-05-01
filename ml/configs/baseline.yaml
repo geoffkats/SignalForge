@@ -1,5 +1,5 @@
 dataset:
-  input_path: data/raw/deepcop/lncap_training.csv
+  input_path: data/raw/deepcop/lncap_multidrug_landmark.csv
   processed_path: data/processed/training_table.parquet
   expected_columns:
     - perturbation_id
@@ -8,17 +8,28 @@ dataset:
     - smiles
     - gene_symbol
     - regulation_label
+  optional_columns:
+    - log2fc
+  # Only genes with |log2FC| > fc_label_threshold are written to the CSV.
+  # 0.25 filters noise labels while keeping enough samples (722 across 3 drugs).
+  fc_label_threshold: 0.25
   checksum_sha256: ""
 
 features:
   fingerprint_radius: 2
   fingerprint_bits: 2048
   gene_vector_strategy: go_fingerprint
+  # Apply LNCAPcorr column selection to Morgan FP bits (reduces noise)
+  use_corr_selection: true
 
 training:
   test_size: 0.2
   random_state: 42
-  logistic_max_iter: 1000
+  # RandomForest hyperparameters
+  n_estimators: 300
+  max_depth: null
+  min_samples_leaf: 1
+  max_features: sqrt
   class_weight: balanced
 
 artifacts:

@@ -7,7 +7,12 @@ from typing import NamedTuple
 import joblib
 import numpy as np
 
-from signalforge_ml.features import smiles_to_morgan, gene_symbol_to_vector
+from signalforge_ml.features import (
+    _compound_vector,
+    _load_corr_cols,
+    gene_symbol_to_vector,
+    smiles_to_morgan,
+)
 
 # Default paths — relative to the ml/ package root
 _PKG_ROOT = Path(__file__).parent.parent
@@ -50,7 +55,13 @@ class SignalForgeModel:
 
     def predict_genes(self, smiles: str, genes: list[str]) -> list[GeneScore]:
         """Return per-gene regulation probabilities for a SMILES compound."""
-        morgan = smiles_to_morgan(smiles, self._fp_radius, self._fp_bits)
+        morgan_full = smiles_to_morgan(smiles, self._fp_radius, self._fp_bits)
+        # Apply the same LNCAPcorr feature selection used at training time
+        corr_idx = _load_corr_cols()
+        if corr_idx is not None and len(corr_idx) > 0:
+            morgan = morgan_full[corr_idx]
+        else:
+            morgan = morgan_full
         scores: list[GeneScore] = []
         for gene in genes:
             go_vec = gene_symbol_to_vector(gene)
