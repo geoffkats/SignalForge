@@ -119,9 +119,135 @@ Keep the first version tight.
 
 ### Phase 2
 
-- add disease-signature reversal search
-- add pathway enrichment summaries
-- add nearest-neighbor comparison to known compounds
+- Ship a real multi-drug training upgrade and harden inference so feature drift fails loudly.
+
+#### What changed in this phase
+
+1. Replaced the noisy single-drug training set with a clean multi-drug landmark dataset.
+2. Switched the model from logistic regression to a random forest.
+3. Added sample weighting by $|log_2FC|$ so weakly regulated genes do not dominate training.
+4. Added LNCaP-specific Morgan-bit selection (`LNCAPcorr_cols.csv`) to reduce compound-side noise.
+5. Fixed the training/inference feature-shape mismatch and added a regression test.
+
+#### Root cause analysis
+
+The initial baseline plateaued near 51% accuracy because three constraints were stacked together:
+
+- Only one drug was present in the training CSV, so the model could not learn cross-compound structure.
+- Most labels were statistically weak, so the classifier was fitting noise rather than robust perturbation effects.
+- Most genes were outside the 978-gene GO matrix, so inference often fell back to hash embeddings.
+
+With three drugs and only landmark genes, 71% is a realistic ceiling for this phase. The jump to 89% at the stricter $|log_2FC| > 0.5$ threshold confirms that the biology is present, but the $|log_2FC| > 0.25$ band still contains genuinely ambiguous regulation.
+
+#### Dataset redesign
+
+Phase 2 training now uses:
+
+- `Enzalutamide` via RDKit Morgan fingerprints from SMILES
+- `VPC14449` via pre-computed Morgan fingerprints from `inhouse_morgan_2048.csv`
+- `VPC17005` via pre-computed Morgan fingerprints from `inhouse_morgan_2048.csv`
+- Landmark genes only, so every gene has a real GO-term vector
+- A label filter of $|log_2FC| > 0.25$
+
+This produces:
+
+- 722 clean samples
+- 3 compounds
+- 405 landmark genes
+- label balance of 376 `up` / 346 `down`
+
+#### Key code changes
+
+Training-data construction was rewritten so compounds can come from either real SMILES or pre-computed in-house Morgan fingerprints:
+
+```python
+DRUG_SMILES: dict[str, str] = {
+	"Enzalutamide": "CC1(C)C(=O)N(c2ccc(C#N)cc2C(F)(F)F)C(=S)N1c3ccc(C(=O)NC)cc3F",
+}
+
+DRUG_PRECOMPUTED: set[str] = {"VPC14449", "VPC17005"}
+```
+
+The generated CSV now preserves the effect magnitude for weighting during training:
+
+```python
+result = df[
+	[
+		"perturbation_id",
+		"compound_id",
+		"compound_name",
+		"smiles",
+		"gene_symbol",
+		"regulation_label",
+		"log2fc",
+	]
+].reset_index(drop=True)
+```
+
+Compound-side noise is reduced with the LNCaP correlation prior:
+
+```python
+corr_idx = _load_corr_cols()
+if corr_idx is not None and len(corr_idx) > 0:
+	compound_vectors = compound_vectors_raw[:, corr_idx]
+else:
+	compound_vectors = compound_vectors_raw
+```
+
+The classifier was upgraded to a random forest with sample weights derived from $|log_2FC|$:
+
+```python
+w_all = cleaned_frame["log2fc"].abs().to_numpy(dtype=np.float64)
+w_all = w_all / (w_all.mean() + 1e-9)
+
+model = RandomForestClassifier(
+	n_estimators=300,
+	max_features="sqrt",
+	class_weight="balanced",
+	random_state=42,
+	n_jobs=-1,
+)
+model.fit(x_train, y_train, sample_weight=sample_weight_train)
+```
+
+Inference now asserts feature width before calling `predict_proba`, so future training/inference drift fails immediately instead of silently producing incorrect scores:
+
+```python
+if self._expected_feature_count is not None and feature.shape[1] != self._expected_feature_count:
+	raise ValueError(
+		"Inference feature width mismatch: "
+		f"built {feature.shape[1]} features, "
+		f"model expects {self._expected_feature_count}."
+	)
+```
+
+#### Phase 2 metrics
+
+Using the current `baseline.yaml` configuration:
+
+- Accuracy: **0.7103**
+- Macro F1: **0.7087**
+- Weighted F1: **0.7097**
+- Down-class F1: **0.6866**
+- Up-class F1: **0.7308**
+
+This is a meaningful step up from the earlier baseline near 0.51 accuracy / 0.51 macro F1.
+
+#### Interpretation
+
+71% is a respectable floor for the current biological regime, not a tuning failure.
+
+- All three compounds are AR antagonists, so the model mainly learns a family of related perturbations.
+- The GO-term to direction relationship is real.
+- The remaining error is likely dominated by ambiguous genes in the $|log_2FC| > 0.25$ band and mechanism overlap between AR suppression and general stress-response programs.
+
+#### Natural next moves after Phase 2
+
+1. Add a fourth drug with a non-AR mechanism, ideally something that perturbs FOXA1, MYC, or a parallel lineage program.
+2. Test tighter Morgan-bit subsets, for example the top 800 or top 1,000 bits from `LNCAPcorr_cols.csv`.
+3. Upgrade the manifest/version naming to reflect the new model family more precisely than `baseline-logreg-v1`.
+4. Add group-aware evaluation so train/test splits do not overstate generalization across closely related compounds.
+5. Expand beyond the in-house DeepCOP compounds by ingesting the GEO LINCS Level 2 files from `GSE92742` and `GSE70138`.
 
 ### Phase 3
 

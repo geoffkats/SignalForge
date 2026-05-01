@@ -48,6 +48,7 @@ class SignalForgeModel:
         self._model = joblib.load(model_path)
         self._fp_radius = fp_radius
         self._fp_bits = fp_bits
+        self._expected_feature_count = getattr(self._model, "n_features_in_", None)
 
     # ------------------------------------------------------------------
     # Public API
@@ -66,6 +67,13 @@ class SignalForgeModel:
         for gene in genes:
             go_vec = gene_symbol_to_vector(gene)
             feature = np.concatenate([morgan, go_vec], axis=0).reshape(1, -1)
+            if self._expected_feature_count is not None and feature.shape[1] != self._expected_feature_count:
+                raise ValueError(
+                    "Inference feature width mismatch: "
+                    f"built {feature.shape[1]} features, "
+                    f"model expects {self._expected_feature_count}. "
+                    "Check that inference uses the same Morgan bit selection and gene encoder as training."
+                )
             proba = self._model.predict_proba(feature)[0]
             # class order: 0=down, 1=up  (matches training label map)
             down_p = float(proba[0])

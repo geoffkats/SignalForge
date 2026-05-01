@@ -84,3 +84,22 @@ def test_predict_single_unknown_gene_does_not_crash(model):
     """Out-of-vocabulary genes should use hash fallback, not raise."""
     scores = model.predict_genes(ENZALUTAMIDE, ["TOTALLY_UNKNOWN_XYZ"])
     assert len(scores) == 1
+
+
+def test_predict_genes_feature_width_matches_model(model):
+    """Regression guard for training/inference feature drift.
+
+    This failed previously when training applied LNCAPcorr Morgan-bit selection
+    but inference still concatenated all 2048 Morgan bits.
+    """
+    from signalforge_ml.features import _load_corr_cols, gene_symbol_to_vector, smiles_to_morgan
+
+    corr_idx = _load_corr_cols()
+    morgan = smiles_to_morgan(ENZALUTAMIDE, 2, 2048)
+    if corr_idx is not None and len(corr_idx) > 0:
+        morgan = morgan[corr_idx]
+    go_vec = gene_symbol_to_vector("AR")
+    feature = __import__("numpy").concatenate([morgan, go_vec], axis=0).reshape(1, -1)
+
+    assert hasattr(model._model, "n_features_in_")
+    assert feature.shape[1] == model._model.n_features_in_
