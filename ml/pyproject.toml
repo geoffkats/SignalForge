@@ -10,7 +10,7 @@ dependencies = [
     "pyarrow>=19.0,<20.0",
     "pyyaml>=6.0,<7.0",
     "rdkit>=2024.9.6",
-    "scikit-learn>=1.6,<2.0",
+    "scikit-learn>=1.7,<1.8",
     "torch>=2.6,<3.0",
     "typer>=0.15,<1.0"
 ]

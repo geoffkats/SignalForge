@@ -1,6 +1,7 @@
 {
   "model_version": "baseline-logreg-v1",
   "algorithm": "Morgan fingerprint (LNCAPcorr-selected bits) + LINCS L1000 GO-term gene fingerprint (978 genes x 1107 GO terms) + random forest",
+  "sklearn_version": "1.7.2",
   "artifact_path": "artifacts\\models\\baseline.joblib",
   "processed_dataset_path": "data\\processed\\training_table.parquet",
   "metrics": {

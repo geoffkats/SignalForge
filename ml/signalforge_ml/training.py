@@ -5,6 +5,7 @@ from pathlib import Path
 
 import joblib
 import numpy as np
+import sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
@@ -90,6 +91,7 @@ def train_baseline(config: dict) -> dict:
             "LINCS L1000 GO-term gene fingerprint (978 genes x 1107 GO terms) + "
             "random forest"
         ),
+        "sklearn_version": sklearn.__version__,
         "artifact_path": str(model_path),
         "processed_dataset_path": str(processed_path),
         "metrics": report,
