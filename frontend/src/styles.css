@@ -1,6 +1,16 @@
 :root {
   color-scheme: dark;
   font-family: "Space Grotesk", "IBM Plex Sans", "Segoe UI", sans-serif;
+  /* Density scale — tuned so 100% browser zoom feels natural (not oversized) */
+  --ui-scale: 0.92;
+  --space-1: calc(4px * var(--ui-scale));
+  --space-2: calc(8px * var(--ui-scale));
+  --space-3: calc(12px * var(--ui-scale));
+  --space-4: calc(16px * var(--ui-scale));
+  --space-5: calc(20px * var(--ui-scale));
+  --space-6: calc(24px * var(--ui-scale));
+  --panel-pad: calc(18px * var(--ui-scale));
+  --shell-max: 1280px;
   --bg: #020c0f;
   --bg-soft: #030f15;
   --panel: rgba(2, 14, 20, 0.88);
@@ -45,6 +55,11 @@
   box-sizing: border-box;
 }
 
+html {
+  /* ~14.7px base — keeps rem/em type from feeling oversized at 100% zoom */
+  font-size: 92%;
+}
+
 html,
 body,
 #root {
@@ -55,6 +70,8 @@ body {
   margin: 0;
   color: var(--text);
   background: transparent;
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 button,
@@ -125,22 +142,27 @@ h2,
 .hero-panel h1,
 .section-heading h2 {
   font-family: "Playfair Display", "Bodoni MT", "Didot", "Times New Roman", serif;
-
   letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.7rem);
+}
+
+h2 {
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
 }
 
 .app-shell {
   position: relative;
-
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 20px;
-  width: min(1480px, calc(100vw - 28px));
-
+  grid-template-columns: 280px 1fr;
+  gap: var(--space-4);
+  width: min(var(--shell-max), calc(100vw - 24px));
   min-height: 100vh;
   margin: 0 auto;
-  padding: 20px 0 28px;
-
+  padding: var(--space-4) 0 var(--space-5);
 }
 
 .app-shell.sidebar-collapsed {
@@ -296,11 +318,11 @@ h2,
 .nav-shell {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: 18px;
-  padding: 22px;
+  gap: var(--space-4);
+  padding: var(--panel-pad);
   position: sticky;
-  top: 20px;
-  height: calc(100vh - 40px);
+  top: 16px;
+  height: calc(100vh - 32px);
 }
 
 .brand-block h2,
@@ -442,7 +464,7 @@ h2,
 .api-hero-panel,
 .endpoint-panel,
 .docs-panel {
-  padding: 24px;
+  padding: var(--panel-pad);
 }
 
 .command-bar {
@@ -657,12 +679,12 @@ h2,
 }
 
 .command-bar-compact {
-  padding: 14px 18px;
+  padding: 12px 16px;
   align-items: center;
 }
 
 .command-bar-compact h1 {
-  font-size: 1.45rem;
+  font-size: 1.25rem;
   letter-spacing: -0.02em;
 }
 
@@ -1058,7 +1080,7 @@ h2,
 
 .sf-title {
   margin: 0;
-  font-size: 30px;
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem);
   line-height: 1.2;
   color: rgba(255, 255, 255, 0.88);
 }
@@ -1328,7 +1350,7 @@ h2,
 
 .sf-wet-copy strong {
   display: block;
-  font-size: 20px;
+  font-size: 1.1rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.88);
   margin: 6px 0 4px;
@@ -1889,7 +1911,7 @@ h2,
   }
 }
 
-@media (max-width: 1320px) {
+@media (max-width: 1180px) {
   .app-shell {
     grid-template-columns: 1fr;
     width: min(100vw - 24px, 100%);
@@ -2225,7 +2247,7 @@ h2,
 /* Candidate card rank number — teal glow */
 .candidate-rank {
   font-family: "IBM Plex Mono", monospace;
-  font-size: 1.6rem;
+  font-size: 1.25rem;
   font-weight: 300;
   color: var(--teal-strong);
   text-shadow: 0 0 14px rgba(79, 70, 229, 0.5);
@@ -2265,7 +2287,7 @@ h2,
 
 /* Command bar h1 gradient text */
 .command-bar h1 {
-  font-size: 1.55rem;
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.4rem);
   background: linear-gradient(120deg, var(--text) 60%, var(--teal));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
