@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
+.venv312/
 venv/
 *.egg-info/
 
@@ -13,11 +14,27 @@ dist/
 # Environment
 .env
 
-# ML artifacts — large neural network weights should be stored externally
-# The baseline LogisticRegression model (25 KB) is committed directly
+# ML processed tables
 ml/data/processed/*.parquet
+ml/data/processed/lincs_smiles.csv
 
-# Large raw data files (>50 MB) — obtain via ml/data/raw/deepcop/SOURCE.md
+# Trained model checkpoints — regenerate via ml/signalforge_ml/train_deep.py
+ml/artifacts/models/*.pt
+
+# Large raw DeepCOP files — obtain via ml/data/raw/deepcop/SOURCE.md
 ml/data/raw/deepcop/phase1_compounds_morgan_2048.csv
 ml/data/raw/deepcop/phase2_compounds_morgan_2048.csv
 ml/data/raw/deepcop/*.rar
+ml/data/raw/deepcop/DESeq2results.csv
+
+# Huge LINCS Level 5 downloads — use scripts/download_lincs_level5.py
+*.gctx
+*.gctx.gz
+ml/data/raw/lincs_level5/
+data/raw/lincs_level5/
+
+# Accidental repo-root artifact copies (canonical path is ml/artifacts/)
+/artifacts/
+
+# Training debug logs
+ml/ingest_debug.log

@@ -8,10 +8,12 @@ services:
       SIGNALFORGE_ENVIRONMENT: production
       SIGNALFORGE_ALLOWED_ORIGINS: '["http://localhost:5173","http://127.0.0.1:5173"]'
       SIGNALFORGE_REQUESTS_PER_MINUTE: 120
-      SIGNALFORGE_MODEL_MANIFEST_PATH: /ml-artifacts/latest.json
-      SIGNALFORGE_MODEL_VERSION: baseline-logreg-v1
+      SIGNALFORGE_MODEL_VERSION: baseline-rf-v1
+      SIGNALFORGE_MODEL_MANIFEST_PATH: /ml-artifacts/manifests/latest.json
+      SIGNALFORGE_MODEL_ARTIFACT_PATH: /ml-artifacts/models/baseline.joblib
+      SIGNALFORGE_COMPOUND_ATLAS_PATH: /ml-artifacts/libraries/compound_atlas.json
     volumes:
-      - ./ml/artifacts/manifests/latest.json:/ml-artifacts/latest.json:ro
+      - ./ml/artifacts:/ml-artifacts:ro
     ports:
       - "8000:8000"
     restart: unless-stopped
