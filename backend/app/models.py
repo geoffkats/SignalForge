@@ -55,6 +55,9 @@ class GeneEffectPrediction(BaseModel):
 
 class GeneEffectResponse(BaseModel):
     model_version: str = Field(description="Version of the model or heuristic backing the response.")
+    inference_mode: Literal["model", "heuristic"] = Field(
+        description="Whether the response used a loaded ML artifact or the deterministic heuristic fallback."
+    )
     predictions: list[GeneEffectPrediction] = Field(description="Gene level prediction objects for the submitted panel.")
     audit_id: str = Field(description="Request scoped audit identifier for traceability.")
 
@@ -100,6 +103,9 @@ class RankedCompound(BaseModel):
 
 class ReverseSignatureResponse(BaseModel):
     model_version: str = Field(description="Version of the model or heuristic backing the ranking.")
+    inference_mode: Literal["model", "heuristic"] = Field(
+        description="Whether the ranking used a loaded ML artifact or the deterministic heuristic fallback."
+    )
     results: list[RankedCompound] = Field(description="Ranked reversal candidates sorted by descending score.")
     audit_id: str = Field(description="Request scoped audit identifier for traceability.")
 
@@ -107,12 +113,20 @@ class ReverseSignatureResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: str = Field(description="Service health indicator.")
     model_version: str = Field(description="Version of the active predictor service.")
+    inference_mode: Literal["model", "heuristic"] = Field(
+        description="Whether the predictor loaded a real model artifact at startup."
+    )
+    atlas_size: int = Field(description="Number of compounds available for reverse-signature search.")
     environment: str = Field(description="Current backend environment label.")
 
 
 class MetaResponse(BaseModel):
     app_name: str = Field(description="Public application name exposed by the backend.")
     model_version: str = Field(description="Version of the active predictor service.")
+    inference_mode: Literal["model", "heuristic"] = Field(
+        description="Whether the predictor loaded a real model artifact at startup."
+    )
+    atlas_size: int = Field(description="Number of compounds available for reverse-signature search.")
     training_status: str = Field(description="Training status for the currently loaded model manifest.")
     training_metrics: dict[str, float] = Field(
         description=(

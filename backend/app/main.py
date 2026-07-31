@@ -18,6 +18,8 @@ async def lifespan(app: FastAPI):
         model_version=settings.model_version,
         manifest_path=settings.model_manifest_path,
         model_artifact_path=settings.model_artifact_path,
+        compound_atlas_path=settings.compound_atlas_path,
+        eager_load=True,
     )
     yield
 
@@ -28,7 +30,7 @@ def create_app() -> FastAPI:
         title=settings.app_name,
         summary="Premium biotech API for compound-to-gene effect analysis and reverse-signature search.",
         description=(
-            "SignalForge Explorer exposes a research-grade interface for molecule-to-transcriptome exploration.\n\n"
+            "SignalForge exposes a research-grade interface for molecule-to-transcriptome exploration.\n\n"
             "The API supports health checks, platform metadata, gene-effect prediction, and reverse-signature search. "
             "All prediction flows are wrapped with request tracing, rate limiting, and research-use-only policy guardrails.\n\n"
             "Use the Swagger UI to inspect request examples, response schemas, and live try-it-out behavior."

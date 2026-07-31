@@ -38,6 +38,8 @@ def _make_mock_predictor():
     predictor.manifest.training_status = "trained"
     predictor.manifest.training_metrics = {"accuracy": 0.55, "macro_f1": 0.51}
     predictor.manifest.metrics_source = None
+    predictor.inference_mode = "model"
+    predictor.atlas_size = 300
     predictor.predict_gene_effects.return_value = [
         GeneEffectPrediction(
             gene="AR",
@@ -106,6 +108,28 @@ def test_meta_includes_pipeline_stages(client):
 def test_meta_includes_security_modes(client):
     data = client.get("/meta").json()
     assert "security_modes" in data
+
+
+def test_meta_includes_inference_mode(client):
+    data = client.get("/meta").json()
+    assert data["inference_mode"] == "model"
+    assert data["atlas_size"] == 300
+
+
+def test_healthz_includes_inference_mode(client):
+    data = client.get("/healthz").json()
+    assert data["inference_mode"] == "model"
+    assert data["atlas_size"] == 300
+
+
+def test_predict_invalid_smiles_returns_422(client):
+    client.app.state.predictor.predict_gene_effects.side_effect = ValueError("Invalid SMILES string: bad")
+    with patch("app.config.get_settings", return_value=_open_settings()):
+        r = client.post(
+            "/predict/gene-effect",
+            json={"smiles": "not-a-smiles%%%", "genes": ["AR"]},
+        )
+    assert r.status_code == 422
 
 
 # ---------------------------------------------------------------------------

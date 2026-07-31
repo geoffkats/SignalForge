@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 
 from app.config import get_settings
 from app.models import (
@@ -31,6 +31,8 @@ def healthz(request: Request) -> HealthResponse:
     return HealthResponse(
         status="ok",
         model_version=predictor.manifest.model_version,
+        inference_mode=predictor.inference_mode,
+        atlas_size=predictor.atlas_size,
         environment=settings.environment,
     )
 
@@ -51,6 +53,8 @@ def meta(request: Request) -> MetaResponse:
     return MetaResponse(
         app_name=settings.app_name,
         model_version=predictor.manifest.model_version,
+        inference_mode=predictor.inference_mode,
+        atlas_size=predictor.atlas_size,
         training_status=predictor.manifest.training_status,
         training_metrics=predictor.manifest.training_metrics,
         metrics_source=predictor.manifest.metrics_source,
@@ -80,10 +84,14 @@ def meta(request: Request) -> MetaResponse:
 def predict_gene_effect(request: Request, payload: GeneEffectRequest) -> GeneEffectResponse:
     predictor = request.app.state.predictor
     enforce_biotech_query_policy(request, gene_count=len(payload.genes))
-    predictions = predictor.predict_gene_effects(payload.smiles, payload.genes)
+    try:
+        predictions = predictor.predict_gene_effects(payload.smiles, payload.genes)
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(exc)) from exc
     audit = build_audit_record(request.state.request_id, "predict.gene_effect", request.state.query_classification)
     return GeneEffectResponse(
         model_version=predictor.manifest.model_version,
+        inference_mode=predictor.inference_mode,
         predictions=predictions,
         audit_id=audit.audit_id,
     )
@@ -115,6 +123,7 @@ def reverse_signature(request: Request, payload: ReverseSignatureRequest) -> Rev
     audit = build_audit_record(request.state.request_id, "search.reverse_signature", request.state.query_classification)
     return ReverseSignatureResponse(
         model_version=predictor.manifest.model_version,
+        inference_mode=predictor.inference_mode,
         results=results,
         audit_id=audit.audit_id,
     )
