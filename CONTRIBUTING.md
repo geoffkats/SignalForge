@@ -1,6 +1,6 @@
-# Contributing to SignalForge Explorer
+# Contributing to SignalForge
 
-Thanks for contributing to SignalForge Explorer.
+Thanks for contributing to SignalForge.
 
 This project combines biotech-focused application code, ML training workflows, and research-oriented data processing. Changes should be reproducible, reviewable, and safe to operate.
 
@@ -20,7 +20,9 @@ This project combines biotech-focused application code, ML training workflows, a
 cd backend
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -e .
+pip install -e ".[dev]"
+# Also install inference deps so the API loads the real model (not heuristic fallback):
+pip install -e "../ml[inference]"
 copy .env.example .env
 uvicorn app.main:app --reload
 ```
@@ -40,9 +42,27 @@ npm run dev
 cd ml
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -e .
+pip install -e ".[dev]"
 python -m signalforge_ml.prepare_deepcop
 signalforge-ml train --config-path configs/baseline.yaml
+python -m signalforge_ml.build_atlas
+```
+
+### ML Full-Scale (Phase 3) + product atlas (Phase 4)
+
+```powershell
+cd ml
+.\.venv\Scripts\Activate.ps1
+pip install -e ".[dev]"
+
+$env:PYTHONPATH = (Get-Location).Path
+$cfg = "configs/deep_lincs.yaml"
+
+python -m signalforge_ml.train_deep $cfg
+if ($LASTEXITCODE -eq 0) {
+	python -m signalforge_ml.train_rf_lincs $cfg
+}
+python -m signalforge_ml.build_atlas
 ```
 
 ## Contribution Rules
@@ -73,8 +93,16 @@ If your change touches the ML pipeline or datasets:
 - Do not replace raw source files silently.
 - Prefer deterministic preprocessing scripts over manual edits.
 - Preserve checksum or provenance safeguards when adding training inputs.
-- Clearly state whether metrics are from placeholder logic or a trained artifact.
+- Clearly state whether metrics are from placeholder logic or a trained artifact (`inference_mode` on `/meta`).
 - Large data files (>50 MB) must be hosted on HuggingFace (`Geoffkats/signalforge-deepcop`) — **do not commit them to git**. Update `ml/data/raw/deepcop/SOURCE.md` with download instructions.
+
+If your change affects Phase 3 training or Phase 4 serving:
+
+- document memory/runtime impact in the PR description
+- include before/after metrics when model behavior changes
+- update `docs/training-incident-log-2026-05-02.md` (or latest incident log) for non-trivial run failures and fixes
+- for serving changes, verify `/healthz` reports `inference_mode=model` and atlas ranking still returns results
+- note whether deep-to-RF chaining was validated end-to-end
 
 ## Security Reporting
 

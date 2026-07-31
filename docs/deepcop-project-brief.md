@@ -245,15 +245,28 @@ This is a meaningful step up from the earlier baseline near 0.51 accuracy / 0.51
 
 1. Add a fourth drug with a non-AR mechanism, ideally something that perturbs FOXA1, MYC, or a parallel lineage program.
 2. Test tighter Morgan-bit subsets, for example the top 800 or top 1,000 bits from `LNCAPcorr_cols.csv`.
-3. Upgrade the manifest/version naming to reflect the new model family more precisely than `baseline-logreg-v1`.
-4. Add group-aware evaluation so train/test splits do not overstate generalization across closely related compounds.
-5. Expand beyond the in-house DeepCOP compounds by ingesting the GEO LINCS Level 2 files from `GSE92742` and `GSE70138`.
+3. ~~Upgrade the manifest/version naming to reflect the new model family more precisely than `baseline-logreg-v1`.~~ Done — manifests use `baseline-rf-v1` / `signalforge-dual-encoder-v1`.
+4. ~~Add group-aware evaluation so train/test splits do not overstate generalization across closely related compounds.~~ Done in Phase 3.
+5. ~~Expand beyond the in-house DeepCOP compounds by ingesting the GEO LINCS Level 2 files from `GSE92742` and `GSE70138`.~~ Done in Phase 3.
 
 ### Phase 3
 
-- add explainability views
-- support batch screening
-- add saved projects and exportable reports
+- dual-encoder deep model on full LINCS multicell data
+- group-aware splits and memory-safe CPU training
+- observed full-data encoder outcome: accuracy 0.8736, macro F1 0.8733
+
+### Phase 4 (product close — completed)
+
+- wire trained RF (and optional deep `.pt`) into FastAPI with eager load
+- curated ~300-compound reverse-signature atlas from LINCS SMILES
+- RDKit SMILES validation + `inference_mode` / atlas provenance on API responses
+- Docker feature-file packaging and gitignore for huge LINCS downloads
+
+Current observed full-data encoder outcome:
+
+- accuracy: 0.8736
+- macro F1: 0.8733
+- promotion thresholds: passed
 
 ## Differentiators
 

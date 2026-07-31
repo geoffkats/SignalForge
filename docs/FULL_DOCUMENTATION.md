@@ -1,4 +1,4 @@
-# SignalForge Explorer — Complete Technical Documentation
+# SignalForge — Complete Technical Documentation
 
 > Molecule-to-transcriptome intelligence platform.  
 > Built from the DeepCOP paper (PMID 31504186 · Bioinformatics 2020 36(3):813-818).
@@ -11,9 +11,10 @@
 ## Table of Contents
 
 1. [Project Overview](#1-project-overview)
-2. [Scientific Foundation — DeepCOP Paper](#2-scientific-foundation--deepcop-paper)
-3. [Repository Structure](#3-repository-structure)
-4. [ML Pipeline (signalforge_ml)](#4-ml-pipeline-signalforge_ml)
+2. [Current Phase Status](#2-current-phase-status)
+3. [Scientific Foundation — DeepCOP Paper](#3-scientific-foundation--deepcop-paper)
+4. [Repository Structure](#4-repository-structure)
+5. [ML Pipeline (signalforge_ml)](#5-ml-pipeline-signalforge_ml)
    - 4.1 [Data Ingestion — prepare_deepcop.py](#41-data-ingestion--prepare_deepcopypy)
    - 4.2 [Dataset Schema — ingest_lincs.py](#42-dataset-schema--ingest_lincspy)
    - 4.3 [Feature Engineering — features.py](#43-feature-engineering--featurespy)
@@ -24,7 +25,7 @@
    - 4.8 [Config — configs/baseline.yaml](#48-config--configsbaselineyaml)
    - 4.9 [Schemas — schemas.py](#49-schemas--schemaspy)
    - 4.10 [Training Results](#410-training-results)
-5. [Backend API (FastAPI)](#5-backend-api-fastapi)
+6. [Backend API (FastAPI)](#6-backend-api-fastapi)
    - 5.1 [Application Factory — main.py](#51-application-factory--mainpy)
    - 5.2 [Configuration — config.py](#52-configuration--configpy)
    - 5.3 [Security Middleware — security.py](#53-security-middleware--securitypy)
@@ -32,22 +33,23 @@
    - 5.5 [API Routes — api/routes.py](#55-api-routes--apiroutespy)
    - 5.6 [Predictor Service — services/predictor.py](#56-predictor-service--servicespredictorpy)
    - 5.7 [Audit Service — services/audit.py](#57-audit-service--servicesauditpy)
-6. [Frontend (React + Vite)](#6-frontend-react--vite)
+7. [Frontend (React + Vite)](#7-frontend-react--vite)
    - 6.1 [API Client — lib/api.ts](#61-api-client--libapiits)
    - 6.2 [TypeScript Types — types.ts](#62-typescript-types--typests)
    - 6.3 [Main Component — App.tsx](#63-main-component--apptsx)
-7. [Data Assets](#7-data-assets)
-8. [Security Architecture](#8-security-architecture)
-9. [Environment Variables](#9-environment-variables)
-10. [Quick-Start — Running Everything](#10-quick-start--running-everything)
-11. [Known Limitations and Upgrade Path](#11-known-limitations-and-upgrade-path)
-12. [Containerized Deployment](#12-containerized-deployment)
+8. [Data Assets](#8-data-assets)
+9. [Security Architecture](#9-security-architecture)
+10. [Environment Variables](#9-environment-variables)
+11. [Quick-Start — Running Everything](#10-quick-start--running-everything)
+12. [Known Limitations and Upgrade Path](#11-known-limitations-and-upgrade-path)
+13. [Containerized Deployment](#12-containerized-deployment)
+14. [Operational Incident Log](#13-operational-incident-log)
 
 ---
 
 ## 1. Project Overview
 
-SignalForge Explorer lets a researcher:
+SignalForge lets a researcher:
 
 - Paste a **SMILES** string for any small molecule.
 - Select one or more **gene symbols** (e.g., `AR`, `KLK3`, `TMPRSS2`).
@@ -58,7 +60,31 @@ The platform is built as a production-grade monorepo with security controls, an 
 
 ---
 
-## 2. Scientific Foundation — DeepCOP Paper
+## 2. Current Phase Status
+
+| Phase | Status | What Was Added |
+|---|---|---|
+| Phase 1 | Completed | Baseline data ingestion and logistic classification pipeline |
+| Phase 2 | Completed | Multi-drug training, RF baseline improvements, weighted samples |
+| Phase 3 | Completed | Full dual-encoder deep model (`train_deep.py`) on full LINCS multicell parquet |
+| Phase 4 | Completed | Real model serving, curated compound atlas, SMILES validation, provenance |
+
+### Recent model outcomes
+
+- Full dual-encoder test accuracy: **0.8736**
+- Full dual-encoder macro F1: **0.8733**
+- Promotion threshold check: passed (`min_accuracy=0.85`, `min_macro_f1=0.84`)
+
+### Recent trainer hardening
+
+- Config-relative path resolution for stable execution from any working directory
+- Memory-safe two-pass feature matrix build for large full-data runs
+- Index-based train/val/test loading (avoid split-array duplication)
+- Optional scaler disabled by default for full-data CPU stability
+
+---
+
+## 3. Scientific Foundation — DeepCOP Paper
 
 **Citation:** Woo G, et al. "DeepCOP: deep learning-based approach to predict gene regulating effects of small molecules." *Bioinformatics* 2020;36(3):813-818. PMID 31504186.
 
@@ -93,7 +119,7 @@ The model predicts **direction** (up / down) of gene expression change when a co
 
 ---
 
-## 3. Repository Structure
+## 4. Repository Structure
 
 ```
 ai-project/
@@ -107,7 +133,7 @@ ai-project/
 │   │   │   └── routes.py      GET /healthz, GET /meta, POST /predict/gene-effect,
 │   │   │                      POST /search/reverse-signature
 │   │   └── services/
-│   │       ├── predictor.py   SignalForgePredictor (placeholder + future trained model)
+│   │       ├── predictor.py   SignalForgePredictor (eager RF/deep load + atlas ranking)
 │   │       └── audit.py       AuditRecord dataclass + builder
 │   ├── pyproject.toml
 │   └── .env.example
@@ -154,7 +180,7 @@ ai-project/
 
 ---
 
-## 4. ML Pipeline (signalforge_ml)
+## 5. ML Pipeline (signalforge_ml)
 
 ### 4.1 Data Ingestion — `prepare_deepcop.py`
 
@@ -324,8 +350,8 @@ manifest JSON                → artifacts/manifests/latest.json
 
 ```json
 {
-  "model_version": "baseline-logreg-v1",
-  "algorithm": "Morgan fingerprint + hashed gene embedding + logistic regression",
+  "model_version": "baseline-rf-v1",
+  "algorithm": "Morgan fingerprint (LNCAPcorr-selected bits) + LINCS L1000 GO-term gene fingerprint + random forest",
   "artifact_path": "artifacts/models/baseline.joblib",
   "processed_dataset_path": "data/processed/training_table.parquet",
   "metrics": { ... sklearn classification_report dict ... },
@@ -335,13 +361,17 @@ manifest JSON                → artifacts/manifests/latest.json
 
 ---
 
-### 4.5 Inference — `inference.py`
+### 4.5 Inference — `inference.py` / `inference_deep.py` / `build_atlas.py`
 
-**Purpose:** Utility to load the training manifest JSON for use by the backend or other callers.
+**Purpose:** Online scoring for the FastAPI backend and reverse-signature atlas.
 
-**Function:** `load_manifest(path) → dict`
+| Module | Role |
+|---|---|
+| `inference.py` | `validate_smiles`, `SignalForgeModel` (joblib RF), reversal scoring |
+| `inference_deep.py` | `SignalForgeDeepModel` for `.pt` dual-encoder checkpoints (optional; requires torch) |
+| `build_atlas.py` | Builds `artifacts/libraries/compound_atlas.json` (~300 named LINCS + clinical AR panel) |
 
-Reads and parses `artifacts/manifests/latest.json`. The backend predictor service can call this to verify model version before serving predictions.
+**Backend wiring:** `SignalForgePredictor` eagerly loads the artifact at startup. Paths ending in `.pt` use the deep loader; otherwise joblib RF. `/healthz` and `/meta` expose `inference_mode` (`model` \| `heuristic`) and `atlas_size`.
 
 ---
 
@@ -505,7 +535,10 @@ All configuration comes from **environment variables** with the `SIGNALFORGE_` p
 | `SIGNALFORGE_REQUESTS_PER_MINUTE` | `60` | Sliding-window rate limit per client IP + key |
 | `SIGNALFORGE_MAX_GENES_PER_REQUEST` | `64` | Hard cap on genes per `/predict/gene-effect` call |
 | `SIGNALFORGE_MAX_SIGNATURE_GENES` | `256` | Hard cap on total genes in a reverse-signature query |
-| `SIGNALFORGE_MODEL_VERSION` | `"baseline-logreg-v1"` | Version string echoed in responses |
+| `SIGNALFORGE_MODEL_VERSION` | `"baseline-rf-v1"` | Version string echoed in responses |
+| `SIGNALFORGE_MODEL_MANIFEST_PATH` | `ml/artifacts/manifests/latest.json` | Active training manifest |
+| `SIGNALFORGE_MODEL_ARTIFACT_PATH` | `ml/artifacts/models/baseline.joblib` | Joblib RF (or `.pt` for optional deep) |
+| `SIGNALFORGE_COMPOUND_ATLAS_PATH` | `ml/artifacts/libraries/compound_atlas.json` | Curated reverse-signature library |
 
 Settings are loaded once and cached with `@lru_cache` — changing env vars requires a server restart.
 
@@ -655,35 +688,22 @@ Interactive API docs (Swagger UI) available at `http://localhost:8000/docs` when
 
 ### 5.6 Predictor Service — `services/predictor.py`
 
-**Current status: PLACEHOLDER.** The predictor uses a deterministic hash-based heuristic, not the trained ML model. Wiring the `baseline.joblib` model into this service is the next major development step.
+**Current status: Phase 4 complete.** The predictor eagerly loads `baseline.joblib` (or a `.pt` dual-encoder checkpoint when configured) at startup, validates SMILES with RDKit, and ranks a curated compound atlas for reverse-signature search. A deterministic hash heuristic remains only as fallback when the artifact cannot be loaded (`inference_mode=heuristic`).
 
 **`SignalForgePredictor`**
 
-Initialised with a `model_version` string. Holds a `PredictorManifest` dataclass.
+Initialised with `model_version`, manifest path, artifact path, and compound atlas path. Exposes `inference_mode` and `atlas_size` for `/healthz` and `/meta`.
 
 **`predict_gene_effects(smiles, genes)`**
 
-For each gene:
-1. Computes SHA-256 of `"<smiles>|<gene>"`.
-2. Derives `up_probability` from hex digits 0-3 of the digest.
-3. Derives `down_probability` from hex digits 4-7.
-4. Normalises so `up + down = 1.0`.
-5. Sets direction: "neutral" if margin < 0.08, otherwise argmax.
-
-Result: deterministic, reproducible predictions with no ML model dependency. Useful for UI development and API integration testing.
+1. Canonicalises SMILES via RDKit (`ValueError` → HTTP 422).
+2. Builds Morgan (+ LNCAPcorr selection for RF) and GO gene vectors via `signalforge_ml`.
+3. Returns per-gene up/down/neutral scores from the loaded model.
+4. Falls back to the hash heuristic only when no model is loaded.
 
 **`reverse_signature_search(up_genes, down_genes, top_k)`**
 
-Hashes the combined signature against 4 demo compounds (Enzalutamide, Bicalutamide, Apalutamide, Vorinostat), sorts by score, returns top_k.
-
-**To connect the real trained model:**
-
-Replace `predict_gene_effects` with logic that:
-1. Calls `smiles_to_morgan(smiles, radius=2, n_bits=2048)` from `ml/signalforge_ml/features.py`.
-2. Calls `gene_symbol_to_vector(gene)` for each gene.
-3. Concatenates → feature vector of shape `(2112,)`.
-4. Calls `model.predict_proba([feature_vector])` on the loaded `baseline.joblib` model.
-5. Returns probabilities as `up_probability` / `down_probability`.
+Scores the curated atlas (`compound_atlas.json`, ~300 compounds including the clinical AR panel), optionally reusing precomputed compound feature vectors, and returns the top_k reversal candidates.
 
 ---
 
@@ -899,8 +919,10 @@ SIGNALFORGE_API_KEYS=["your-key-here"]
 SIGNALFORGE_REQUESTS_PER_MINUTE=60
 SIGNALFORGE_MAX_GENES_PER_REQUEST=64
 SIGNALFORGE_MAX_SIGNATURE_GENES=256
-SIGNALFORGE_MODEL_VERSION=baseline-logreg-v1
+SIGNALFORGE_MODEL_VERSION=baseline-rf-v1
 SIGNALFORGE_MODEL_MANIFEST_PATH=../ml/artifacts/manifests/latest.json
+SIGNALFORGE_MODEL_ARTIFACT_PATH=../ml/artifacts/models/baseline.joblib
+SIGNALFORGE_COMPOUND_ATLAS_PATH=../ml/artifacts/libraries/compound_atlas.json
 ```
 
 Copy `backend/.env.example` to `backend/.env` and fill in values.
@@ -1039,3 +1061,18 @@ docker compose down
 - `metrics_source`
 
 These values are loaded from the training manifest (`ml/artifacts/manifests/latest.json`) and surfaced directly in both JSON responses and OpenAPI documentation.
+
+---
+
+## 13. Operational Incident Log
+
+The full production-scale training timeline, incidents, and fixes are documented in:
+
+- `docs/training-incident-log-2026-05-02.md`
+
+This log should be updated when any long-running training cycle experiences:
+
+- process termination without traceback
+- memory-related refactors
+- changes to deep-to-RF execution sequencing
+- promotion-threshold decisions or metric regressions

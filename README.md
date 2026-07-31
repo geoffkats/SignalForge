@@ -6,6 +6,24 @@
 
 SignalForge is a translational analytics platform that predicts how small molecules perturb gene expression and ranks candidate compounds against a desired therapeutic signature — turning transcriptomic reasoning into a reproducible, auditable, API-driven workflow.
 
+## Phase Status (Current)
+
+- Phase 1: Baseline ingestion + logistic pipeline (completed)
+- Phase 2: Multi-drug + RandomForest baseline upgrades (completed)
+- Phase 3: Dual-encoder deep model with full LINCS multicell training (completed)
+- Phase 4: Product close — real model serving, curated compound atlas, provenance (completed)
+
+## Newly Added Features
+
+- Eager RF model load at API startup with `inference_mode` provenance on `/healthz`, `/meta`, and predict/search responses
+- Optional deep `.pt` inference path (`SignalForgeDeepModel`) for local dual-encoder serving
+- Curated ~300-compound reverse-signature atlas (`ml/artifacts/libraries/compound_atlas.json`)
+- Server-side RDKit SMILES validation (422 on invalid structures)
+- Full LINCS multicell training path using `lincs_multicell_full.parquet`
+- Deep dual-encoder (`SignalForgeNet`) trainer with compound and gene branches
+- Compound-group-aware train/val/test splitting via `GroupShuffleSplit`
+- Run incident log and troubleshooting playbook for long training sessions
+
 ---
 
 ## Architecture
@@ -29,9 +47,10 @@ SignalForge is a translational analytics platform that predicts how small molecu
 ┌──────────────────────────▼──────────────────────────────────────┐
 │  ML pipeline (ml/)                                              │
 │  Data: DeepCOP DESeq2 + LINCS L1000 GO-term fingerprints        │
-  │  Features: Morgan-2048 (RDKit) + GO-term gene vectors (978 genes × 1107 GO terms, hash fallback for OOV)
+│  Features: Morgan-2048 (RDKit) + GO-term gene vectors            │
+│  Models: RandomForest baseline + dual-encoder SignalForgeNet     │
 │  Model: LogisticRegression (class_weight=balanced, sklearn)     │
-│  Macro F1: 0.51  |  Down-recall: 0.50  |  Up-recall: 0.53      │
+│  Latest deep metrics: Accuracy 0.8736 | Macro F1 0.8733         │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -51,21 +70,35 @@ SignalForge is a translational analytics platform that predicts how small molecu
 
 ## Quickstart
 
-### 1. ML — train the model
+### 1. ML — train baseline + build atlas
 
 ```bash
 cd ml
 pip install -e ".[dev]"
 signalforge-ml train --config configs/baseline.yaml
+python -m signalforge_ml.build_atlas
+```
+
+### 1b. ML — dual-encoder + optional RF sequence
+
+```bash
+cd ml
+export PYTHONPATH=.
+python -m signalforge_ml.train_deep configs/deep_lincs.yaml
+# Optional follow-up RF (only if deep succeeds)
+python -m signalforge_ml.train_rf_lincs configs/deep_lincs.yaml
 ```
 
 ### 2. Backend — start the API
 
+The API loads `baseline.joblib` and the compound atlas at startup. Install ML inference deps so the predictor is not stuck in heuristic mode:
+
 ```bash
-cd backend
-pip install -e "."
+cd ml && pip install -e ".[inference]"
+cd ../backend
+pip install -e ".[dev]"
 cp .env.example .env          # edit API keys if needed
-.venv/Scripts/uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 ### 3. Frontend — start the dev server
@@ -110,8 +143,8 @@ cd frontend && npm run build
 
 ## Technology stack
 
-- **ML**: Python 3.12, scikit-learn, RDKit, pandas, joblib
-- **Backend**: FastAPI, Pydantic v2, uvicorn, Python 3.12
+- **ML**: Python 3.10+, scikit-learn, PyTorch, RDKit, pandas, joblib
+- **Backend**: FastAPI, Pydantic v2, uvicorn, Python 3.10+
 - **Frontend**: React 19, TypeScript strict, Vite 7, SmilesDrawer, React Router v6
 - **CI**: GitHub Actions (ml-tests → backend-tests → frontend-build)
 - **Containerisation**: Docker Compose (backend + frontend services)
@@ -124,6 +157,12 @@ Built on the DeepCOP framework (Moo *et al.*, 2019 — PMID 31504186).
 Training data: LNCaP prostate cancer cell line, Enzalutamide DESeq2 perturbation results, LINCS L1000 978 landmark genes.
 
 > **Research use only.** Not validated for clinical decision-making.
+
+## Operations Runbook
+
+- Full training incident and fix history: `docs/training-incident-log-2026-05-02.md`
+- Security and guardrails: `docs/security-architecture.md`
+- Full technical specification: `docs/FULL_DOCUMENTATION.md`
 
 
 ### 1. Reverse Signature Search
@@ -270,6 +309,6 @@ The response includes:
 ## What stands out technically
 
 - molecule-plus-gene reasoning instead of plain compound classification
-- reverse-signature ranking for disease-program exploration
-- deterministic placeholder inference so the full stack is demoable before the real model is trained
+- reverse-signature ranking over a curated ~300-compound LINCS atlas
+- eager model load with explicit `inference_mode` provenance (`model` vs `heuristic`)
 - checksum-gated dataset handling and explicit research-use-only security posture
