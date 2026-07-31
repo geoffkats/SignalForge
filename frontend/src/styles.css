@@ -1786,6 +1786,54 @@ h2 {
   border: 0.5px solid rgba(255, 143, 158, 0.22);
 }
 
+.deploy-notice {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 0.5px solid rgba(251, 191, 36, 0.35);
+  background: rgba(251, 191, 36, 0.1);
+  color: rgba(254, 243, 199, 0.95);
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.deploy-notice strong {
+  flex: 0 0 auto;
+  color: #fbbf24;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.72rem;
+}
+
+.deploy-notice span {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.deploy-notice code {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8em;
+  color: #fde68a;
+}
+
+.deploy-notice .secondary-action {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.nav-status-offline strong {
+  color: #fbbf24;
+}
+
+.nav-offline-note {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  color: rgba(251, 191, 36, 0.9);
+}
+
 .error-boundary-panel {
   padding: 28px 32px;
   display: grid;

@@ -39,6 +39,8 @@ export default function App() {
   // Tumor suppressors / growth-arrest genes to restore
   const [downInput, setDownInput] = useState("PTEN, NKX3-1, CDKN1A, LCN2");
   const [meta, setMeta] = useState<MetaResponse | null>(null);
+  /** null = still checking, true = API up, false = frontend-only / API unreachable */
+  const [backendOnline, setBackendOnline] = useState<boolean | null>(null);
   const [predictionResponse, setPredictionResponse] = useState<GeneEffectResponse | null>(null);
   const [reverseResponse, setReverseResponse] = useState<ReverseSignatureResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -57,7 +59,21 @@ export default function App() {
     ? (workspaces.find((w) => w.id === activeWorkspace) ?? workspaces[0]!)
     : null;
   const isToolWorkspace = activeWorkspace === "assay" || activeWorkspace === "atlas";
-  const systemHealth = meta ? "online" : "degraded";
+  const systemHealth =
+    backendOnline === null ? "checking" : backendOnline ? "online" : "frontend only";
+
+  function refreshMeta() {
+    setBackendOnline(null);
+    void fetchMeta()
+      .then((m) => {
+        setMeta(m);
+        setBackendOnline(true);
+      })
+      .catch(() => {
+        setMeta(null);
+        setBackendOnline(false);
+      });
+  }
 
   function setActiveWorkspace(id: WorkspaceId) {
     navigate(`/${id}`);
@@ -68,12 +84,12 @@ export default function App() {
     { id: "assay", label: "Open Assay", hint: "Compound → gene effects", run: () => navigate("/assay") },
     { id: "atlas", label: "Open Atlas", hint: "Signature → ranked compounds", run: () => navigate("/atlas") },
     { id: "toggle-mode", label: wetLabMode ? "Switch to Data view" : "Switch to Wet Lab view", hint: "Toggle assay result presentation", run: () => setWetLabMode((c) => !c) },
-    { id: "refresh", label: "Refresh model status", hint: "Reload /meta", run: () => { void fetchMeta().then(setMeta).catch(() => setMeta(null)); } },
+    { id: "refresh", label: "Refresh model status", hint: "Reload /meta", run: () => refreshMeta() },
     { id: "api", label: "Open API", hint: "Endpoint contracts", run: () => navigate("/api") },
   ];
 
   useEffect(() => {
-    void fetchMeta().then(setMeta).catch(() => setMeta(null));
+    refreshMeta();
   }, []);
 
   useEffect(() => {
@@ -181,9 +197,12 @@ export default function App() {
           ))}
         </nav>
 
-        <div className="nav-status glass-panel inset-panel">
+        <div className={`nav-status glass-panel inset-panel${backendOnline === false ? " nav-status-offline" : ""}`}>
           <span className="docs-label">Status</span>
           <strong>{systemHealth}</strong>
+          {backendOnline === false ? (
+            <p className="nav-offline-note">UI only — API not connected</p>
+          ) : null}
           <div className="status-list">
             <article>
               <span>Model</span>
@@ -198,6 +217,19 @@ export default function App() {
       </aside>
 
       <div className="workspace-shell">
+        {backendOnline === false ? (
+          <div className="deploy-notice" role="status">
+            <strong>Frontend only</strong>
+            <span>
+              This host is serving the UI. The SignalForge backend is not installed here, so Assay and Atlas
+              predictions will not run until you point{" "}
+              <code>VITE_API_BASE_URL</code> at a live API (or run <code>docker compose up</code> locally).
+            </span>
+            <button className="secondary-action" type="button" onClick={() => refreshMeta()}>
+              Retry
+            </button>
+          </div>
+        ) : null}
         <header className={`glass-panel command-bar${isToolWorkspace ? " command-bar-compact" : ""}`}>
           <div>
             <p className="eyebrow">{activeWorkspaceMeta?.kicker ?? "SignalForge"}</p>
@@ -221,7 +253,7 @@ export default function App() {
               ⌘K
             </button>
             {!isToolWorkspace ? (
-              <button className="primary-action" type="button" onClick={() => void fetchMeta().then(setMeta).catch(() => setMeta(null))}>
+              <button className="primary-action" type="button" onClick={() => refreshMeta()}>
                 Refresh
               </button>
             ) : null}

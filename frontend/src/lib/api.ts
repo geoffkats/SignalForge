@@ -5,14 +5,21 @@ export const API_DOCS_URL = `${API_BASE}/docs`;
 const API_KEY = import.meta.env.VITE_SIGNALFORGE_API_KEY ?? "";
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_BASE}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(API_KEY ? { "X-API-Key": API_KEY } : {}),
-      ...(options?.headers ?? {}),
-    },
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...(API_KEY ? { "X-API-Key": API_KEY } : {}),
+        ...(options?.headers ?? {}),
+      },
+    });
+  } catch {
+    throw new Error(
+      "Backend unreachable — this deploy is frontend-only. Run the SignalForge API locally or set VITE_API_BASE_URL.",
+    );
+  }
 
   if (!response.ok) {
     let detail = `API request failed with status ${response.status}`;
