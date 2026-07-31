@@ -1,5 +1,5 @@
-import { type FormEvent } from "react";
-import type { ReverseSignatureResponse } from "../types";
+import { type FormEvent, useEffect, useState } from "react";
+import type { RankedCompound, ReverseSignatureResponse } from "../types";
 import AtlasGraph from "../components/AtlasGraph";
 
 interface AtlasPageProps {
@@ -11,6 +11,7 @@ interface AtlasPageProps {
   restoredGenes: string[];
   reverseResponse: ReverseSignatureResponse | null;
   isSearching: boolean;
+  atlasSize?: number;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
 }
 
@@ -21,20 +22,28 @@ export default function AtlasPage({
   restoredGenes,
   reverseResponse,
   isSearching,
+  atlasSize,
   onSubmit,
 }: AtlasPageProps) {
-  const strongestReversal = reverseResponse?.results[0];
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSelectedId(reverseResponse?.results[0]?.compound_id ?? null);
+  }, [reverseResponse]);
+
+  const selected: RankedCompound | undefined =
+    reverseResponse?.results.find((r) => r.compound_id === selectedId) ?? reverseResponse?.results[0];
 
   return (
-    <div className="workspace-grid atlas-grid">
-      <section className="glass-panel workbench-panel">
-        <div className="section-heading">
-          <p className="eyebrow">Bench B</p>
-          <h2>Reverse-signature design</h2>
+    <div className="workspace-grid atlas-grid atlas-grid-task">
+      <section className="glass-panel workbench-panel atlas-input">
+        <div className="section-heading compact-heading">
+          <p className="eyebrow">Signature</p>
+          <h2>Reverse search</h2>
         </div>
         <form onSubmit={onSubmit} className="stack-form">
           <label>
-            <span>Genes to suppress</span>
+            <span>Suppress</span>
             <input value={upInput} onChange={(e) => setUpInput(e.target.value)} />
           </label>
           <div className="chip-row compact">
@@ -43,7 +52,7 @@ export default function AtlasPage({
             ))}
           </div>
           <label>
-            <span>Genes to restore</span>
+            <span>Restore</span>
             <input value={downInput} onChange={(e) => setDownInput(e.target.value)} />
           </label>
           <div className="chip-row compact">
@@ -52,73 +61,85 @@ export default function AtlasPage({
             ))}
           </div>
           <button className="submit-button secondary" type="submit" disabled={isSearching}>
-            {isSearching ? "Ranking perturbation candidates..." : "Search reversal candidates"}
+            {isSearching ? "Ranking…" : "Rank compounds"}
           </button>
+          <p className="tool-meta-line">
+            Library {atlasSize ?? "—"}
+            {reverseResponse?.inference_mode ? ` · ${reverseResponse.inference_mode}` : ""}
+          </p>
         </form>
       </section>
 
-      <section className="glass-panel candidate-panel">
-        <div className="section-heading split-heading">
+      <section className="glass-panel candidate-panel atlas-rankings">
+        <div className="section-heading split-heading compact-heading">
           <div>
-            <p className="eyebrow">Candidate atlas</p>
-            <h2>Ranked compounds</h2>
+            <p className="eyebrow">Rankings</p>
+            <h2>Candidates</h2>
           </div>
-          <div className="mini-stat">
-            <span>Top K</span>
+          <div className="mini-stat compact-stat">
+            <span>Shown</span>
             <strong>{reverseResponse?.results.length ?? 0}</strong>
           </div>
         </div>
+
         {reverseResponse ? (
-          <div className="candidate-list">
-            {reverseResponse.results.map((result, index) => (
-              <article key={result.compound_id} className="candidate-card">
-                <div className="candidate-rank">{String(index + 1).padStart(2, "0")}</div>
-                <div className="candidate-body">
-                  <div className="result-topline">
-                    <strong>{result.compound_name}</strong>
-                    <span className="score-badge">score {result.reversal_score.toFixed(2)}</span>
-                  </div>
-                  <p className="smiles-line">{result.smiles}</p>
-                  <p>{result.explanation}</p>
-                </div>
-              </article>
-            ))}
-            <p className="audit-line">Audit trail: {reverseResponse.audit_id}</p>
-          </div>
+          <>
+            <div className="rank-table" role="list">
+              {reverseResponse.results.map((result, index) => {
+                const active = result.compound_id === selected?.compound_id;
+                return (
+                  <button
+                    key={result.compound_id}
+                    type="button"
+                    role="listitem"
+                    className={`rank-row${active ? " rank-row-active" : ""}`}
+                    onClick={() => setSelectedId(result.compound_id)}
+                  >
+                    <span className="rank-index">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="rank-name">{result.compound_name}</span>
+                    <span className="rank-score">{result.reversal_score.toFixed(2)}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <p className="audit-line">
+              Audit {reverseResponse.audit_id.slice(0, 12)}
+            </p>
+          </>
         ) : (
-          <p className="empty-state">No candidate ranking yet. Submit a reversal signature to populate the atlas.</p>
+          <p className="empty-state">Set a signature and rank to fill the atlas.</p>
         )}
       </section>
 
-      <AtlasGraph
-        strongestReversal={strongestReversal}
-        suppressedGenes={suppressedGenes}
-        restoredGenes={restoredGenes}
-      />
-
-      <section className="glass-panel atlas-sidecar">
-        <div className="section-heading">
-          <p className="eyebrow">Signature profile</p>
-          <h2>Intent mapping</h2>
+      <section className="glass-panel atlas-detail">
+        <div className="section-heading compact-heading">
+          <p className="eyebrow">Selected</p>
+          <h2>{selected?.compound_name ?? "No selection"}</h2>
         </div>
-        <div className="docs-grid compact-grid">
-          <article>
-            <span className="docs-label">Suppress</span>
-            <p>{suppressedGenes.join(", ") || "none"}</p>
-          </article>
-          <article>
-            <span className="docs-label">Restore</span>
-            <p>{restoredGenes.join(", ") || "none"}</p>
-          </article>
-          <article>
-            <span className="docs-label">Best current match</span>
-            <p>{strongestReversal?.compound_name ?? "awaiting search"}</p>
-          </article>
-          <article>
-            <span className="docs-label">Workflow</span>
-            <p>Signature assembly → candidate scoring → audit capture</p>
-          </article>
-        </div>
+        {selected ? (
+          <div className="atlas-detail-body">
+            <div className="docs-grid compact-grid">
+              <article>
+                <span className="docs-label">Score</span>
+                <strong>{selected.reversal_score.toFixed(3)}</strong>
+              </article>
+              <article>
+                <span className="docs-label">ID</span>
+                <strong>{selected.compound_id}</strong>
+              </article>
+            </div>
+            <p className="smiles-line">{selected.smiles}</p>
+            <p className="atlas-detail-note">{selected.explanation}</p>
+            <AtlasGraph
+              strongestReversal={selected}
+              suppressedGenes={suppressedGenes}
+              restoredGenes={restoredGenes}
+              embedded
+            />
+          </div>
+        ) : (
+          <p className="empty-state">Select a ranked compound to inspect structure context.</p>
+        )}
       </section>
     </div>
   );

@@ -46,6 +46,6 @@ export function predictGeneEffects(smiles: string, genes: string[]): Promise<Gen
 export function searchReverseSignature(upGenes: string[], downGenes: string[]): Promise<ReverseSignatureResponse> {
   return request<ReverseSignatureResponse>("/search/reverse-signature", {
     method: "POST",
-    body: JSON.stringify({ up_genes: upGenes, down_genes: downGenes, top_k: 5 }),
+    body: JSON.stringify({ up_genes: upGenes, down_genes: downGenes, top_k: 20 }),
   });
 }

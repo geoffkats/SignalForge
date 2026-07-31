@@ -1,3 +1,5 @@
+export type InferenceMode = "model" | "heuristic";
+
 export type GeneEffectPrediction = {
   gene: string;
   direction: "up" | "down" | "neutral";
@@ -9,6 +11,7 @@ export type GeneEffectPrediction = {
 
 export type GeneEffectResponse = {
   model_version: string;
+  inference_mode: InferenceMode;
   predictions: GeneEffectPrediction[];
   audit_id: string;
 };
@@ -23,6 +26,7 @@ export type RankedCompound = {
 
 export type ReverseSignatureResponse = {
   model_version: string;
+  inference_mode: InferenceMode;
   results: RankedCompound[];
   audit_id: string;
 };
@@ -30,6 +34,8 @@ export type ReverseSignatureResponse = {
 export type MetaResponse = {
   app_name: string;
   model_version: string;
+  inference_mode: InferenceMode;
+  atlas_size: number;
   training_status: string;
   training_metrics: Record<string, number>;
   metrics_source: string | null;

@@ -9,27 +9,27 @@ export type WorkspaceId = "overview" | "assay" | "atlas" | "api";
 export const workspaces: Array<{ id: WorkspaceId; kicker: string; title: string; description: string }> = [
   {
     id: "overview",
-    kicker: "Mission control",
-    title: "System overview",
-    description: "Monitor assay posture, recent runs, and active platform guardrails.",
+    kicker: "Status",
+    title: "Overview",
+    description: "Model health, metrics, and recent run posture.",
   },
   {
     id: "assay",
-    kicker: "Bench A",
-    title: "Effect assay",
-    description: "Run compound-to-gene inference against a curated panel.",
+    kicker: "Assay",
+    title: "Assay",
+    description: "Predict gene effects for a compound SMILES.",
   },
   {
     id: "atlas",
-    kicker: "Bench B",
-    title: "Candidate atlas",
-    description: "Build reversal signatures and inspect ranked compounds.",
+    kicker: "Atlas",
+    title: "Atlas",
+    description: "Rank compounds that reverse a gene signature.",
   },
   {
     id: "api",
-    kicker: "Developer surface",
-    title: "API control room",
-    description: "Inspect docs, contracts, endpoint posture, and runtime surface.",
+    kicker: "API",
+    title: "API",
+    description: "Endpoint contracts and runtime surface.",
   },
 ];
 

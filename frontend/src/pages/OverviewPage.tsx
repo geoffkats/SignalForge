@@ -1,5 +1,5 @@
 import type { MetaResponse, RankedCompound } from "../types";
-import { sampleCompound, sampleTumorContext, workspaces, type WorkspaceId } from "../constants";
+import { sampleTumorContext, workspaces, type WorkspaceId } from "../constants";
 
 interface OverviewPageProps {
   meta: MetaResponse | null;
@@ -90,13 +90,37 @@ export default function OverviewPage({
           </div>
           <div className="mini-stat mono-stat">
             <span>Model</span>
-            <strong>{meta?.model_version ?? "baseline-heuristic-v0"}</strong>
+            <strong>{meta?.model_version ?? "unavailable"}</strong>
           </div>
         </div>
         <div className="telemetry-stack">
           <article>
-            <span className="docs-label">Active compound</span>
-            <strong>{sampleCompound}</strong>
+            <span className="docs-label">Inference mode</span>
+            <strong>{meta?.inference_mode ?? "unknown"}</strong>
+          </article>
+          <article>
+            <span className="docs-label">Training status</span>
+            <strong>{meta?.training_status ?? "unknown"}</strong>
+          </article>
+          <article>
+            <span className="docs-label">Accuracy</span>
+            <strong>
+              {meta?.training_metrics?.accuracy != null
+                ? meta.training_metrics.accuracy.toFixed(4)
+                : "n/a"}
+            </strong>
+          </article>
+          <article>
+            <span className="docs-label">Macro F1</span>
+            <strong>
+              {meta?.training_metrics?.macro_f1 != null
+                ? meta.training_metrics.macro_f1.toFixed(4)
+                : "n/a"}
+            </strong>
+          </article>
+          <article>
+            <span className="docs-label">Atlas size</span>
+            <strong>{meta?.atlas_size ?? "—"}</strong>
           </article>
           <article>
             <span className="docs-label">Assay context</span>

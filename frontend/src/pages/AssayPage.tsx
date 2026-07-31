@@ -1,6 +1,5 @@
 import { type FormEvent } from "react";
 import type { GeneEffectResponse, MetaResponse } from "../types";
-import { readoutParticles, sampleCompound, sampleTumorContext } from "../constants";
 import MoleculeConstruct from "../components/MoleculeConstruct";
 import PredictionSurface from "../components/PredictionSurface";
 
@@ -33,83 +32,64 @@ export default function AssayPage({
   onRerun,
 }: AssayPageProps) {
   return (
-    <div className={`workspace-grid assay-grid${isPredicting ? " is-predicting" : ""}`}>
-      <section className="glass-panel workbench-panel">
-        <div className="section-heading">
-          <p className="eyebrow">Bench A</p>
-          <h2>Compound effect assay</h2>
+    <div className={`workspace-grid assay-grid assay-grid-task${isPredicting ? " is-predicting" : ""}`}>
+      <section className="glass-panel workbench-panel assay-input">
+        <div className="section-heading compact-heading">
+          <p className="eyebrow">Input</p>
+          <h2>Compound → genes</h2>
         </div>
         <form onSubmit={onSubmit} className="stack-form">
           <label>
-            <span>Compound SMILES</span>
-            <textarea value={smiles} onChange={(e) => setSmiles(e.target.value)} rows={6} />
+            <span>SMILES</span>
+            <textarea value={smiles} onChange={(e) => setSmiles(e.target.value)} rows={4} />
           </label>
           <label>
             <span>Gene panel</span>
             <input value={geneInput} onChange={(e) => setGeneInput(e.target.value)} />
           </label>
-          <div className="chip-row">
+          <div className="chip-row compact">
             {geneTokens.map((gene) => (
               <span key={gene} className="gene-chip">{gene}</span>
             ))}
           </div>
           <button className="submit-button" type="submit" disabled={isPredicting}>
-            {isPredicting ? "Running transcriptomic inference…" : "Run effect prediction"}
+            {isPredicting ? "Running…" : "Run prediction"}
           </button>
+          <p className="tool-meta-line">
+            {meta?.model_version ?? "model unavailable"}
+            {meta?.inference_mode ? ` · ${meta.inference_mode}` : ""}
+          </p>
         </form>
       </section>
 
       <MoleculeConstruct smiles={smiles} isPredicting={isPredicting} />
 
-      <section className={`glass-panel matrix-panel sf-readout-shell${isPredicting ? " shimmer" : ""}`}>
-        <div className="sf-particles" aria-hidden="true">
-          {readoutParticles.map((particle, index) => (
-            <span
-              key={`${particle.left}-${particle.top}-${index}`}
-              className={`sf-particle sf-particle-${particle.tone}`}
-              style={{
-                left: particle.left,
-                top: particle.top,
-                width: `${particle.size}px`,
-                height: `${particle.size}px`,
-                animationDuration: particle.duration,
-                animationDelay: particle.delay,
-              }}
-            />
-          ))}
-        </div>
-        <div className="sf-halo sf-halo-teal" aria-hidden="true" />
-        <div className="sf-halo sf-halo-violet" aria-hidden="true" />
+      <section className={`glass-panel matrix-panel assay-results${isPredicting ? " shimmer" : ""}`}>
         <div className="sf-content">
           <div className="sf-header">
             <div>
-              <p className="sf-eyebrow">Readout matrix · Bench A</p>
-              <h2 className="sf-title">Predicted gene expression shifts</h2>
+              <p className="sf-eyebrow">Results</p>
+              <h2 className="sf-title">Predicted regulation</h2>
             </div>
             <div className="sf-audit">
-              <span className="sf-audit-label">Audit ID</span>
-              <span className="sf-audit-value">{predictionResponse?.audit_id.slice(0, 8) ?? "pending"}</span>
+              <span className="sf-audit-label">Audit</span>
+              <span className="sf-audit-value">{predictionResponse?.audit_id.slice(0, 8) ?? "—"}</span>
             </div>
-          </div>
-
-          <div className="sf-smiles-bar">
-            <span className="sf-smiles-label">SMILES</span>
-            <code className="sf-smiles-code">{smiles}</code>
           </div>
 
           <div className="sf-tabs">
             <button type="button" className={`sf-tab ${!wetLabMode ? "active" : ""}`} onClick={() => setWetLabMode(false)}>
-              Data view
+              Data
             </button>
             <button type="button" className={`sf-tab ${wetLabMode ? "active" : ""}`} onClick={() => setWetLabMode(true)}>
-              Wet lab view
+              Wet lab
             </button>
           </div>
 
           {isPredicting ? (
             <div className="assay-loading-state">
               <div className="assay-loading-bar" />
-              <p className="assay-loading-text">Inference running — transcriptomic signal resolution in progress…</p>
+              <p className="assay-loading-text">Scoring gene panel…</p>
             </div>
           ) : (
             <PredictionSurface predictionResponse={predictionResponse} wetLabMode={wetLabMode} />
@@ -120,34 +100,9 @@ export default function AssayPage({
               Mean confidence <strong>{predictionResponse ? meanConfidence.toFixed(2) : "—"}</strong>
             </span>
             <button className="sf-run-btn" type="button" onClick={onRerun} disabled={isPredicting}>
-              {isPredicting ? "Running…" : "Re-run assay"}
+              {isPredicting ? "Running…" : "Re-run"}
             </button>
           </footer>
-        </div>
-      </section>
-
-      <section className="glass-panel assay-sidecar">
-        <div className="section-heading">
-          <p className="eyebrow">Assay manifest</p>
-          <h2>Run context</h2>
-        </div>
-        <div className="docs-grid compact-grid">
-          <article>
-            <span className="docs-label">Compound</span>
-            <strong>{sampleCompound}</strong>
-          </article>
-          <article>
-            <span className="docs-label">Biology</span>
-            <strong>{sampleTumorContext}</strong>
-          </article>
-          <article>
-            <span className="docs-label">Targets</span>
-            <p>{geneTokens.join(", ")}</p>
-          </article>
-          <article>
-            <span className="docs-label">Predictor</span>
-            <p>{meta?.model_version ?? "baseline-heuristic-v0"}</p>
-          </article>
         </div>
       </section>
     </div>
