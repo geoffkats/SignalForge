@@ -1,0 +1,1507 @@
+{
+  "version": "compound-atlas-v1",
+  "source": "C:\\Users\\User\\Desktop\\backdoor\\ai-project\\ml\\data\\processed\\lincs_smiles.csv",
+  "n_compounds": 300,
+  "compounds": [
+    {
+      "compound_id": "BRD-FBDF768A",
+      "compound_name": "Enzalutamide",
+      "smiles": "CNC(=O)c1ccc(N2C(=S)N(c3ccc(C#N)cc3C(F)(F)F)C(=O)C2(C)C)c(F)c1"
+    },
+    {
+      "compound_id": "BRD-A80177499",
+      "compound_name": "Bicalutamide",
+      "smiles": "CC(C#N)(CS(=O)(=O)c1ccc(F)cc1)NC(=O)c1ccc(OC(F)(F)F)cc1"
+    },
+    {
+      "compound_id": "BRD-K88742101",
+      "compound_name": "Darolutamide",
+      "smiles": "CC(O)c1cc(NC(=O)c2cc(C(F)(F)F)ccc2N)ccc1F"
+    },
+    {
+      "compound_id": "BRD-K12345678",
+      "compound_name": "Vorinostat",
+      "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO"
+    },
+    {
+      "compound_id": "BRD-K87654321",
+      "compound_name": "Entinostat",
+      "smiles": "CCOc1cc(NC(=O)Cc2ccc(NC(=O)c3ccncc3)cc2)ccc1N"
+    },
+    {
+      "compound_id": "BRD-K10466330",
+      "compound_name": "AVA",
+      "smiles": "CC1(C)C=Cc2c(ccc3c2[N+]([O-])=C2C3=C[C@@]34NC(=O)[C@]5(CCCN5C3=O)C[C@H]4C2(C)C)O1"
+    },
+    {
+      "compound_id": "BRD-K10870738",
+      "compound_name": "CDC",
+      "smiles": "N#C/C(=C/c1ccc(O)c(O)c1)C(=O)OC/C=C/c1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K30632436",
+      "compound_name": "CTB",
+      "smiles": "CCOc1ccccc1C(=O)Nc1ccc(Cl)c(C(F)(F)F)c1"
+    },
+    {
+      "compound_id": "BRD-K17896185",
+      "compound_name": "FIT",
+      "smiles": "CCC(=O)N(c1ccccc1)C1CCN(CCc2ccc(N=C=S)cc2)CC1"
+    },
+    {
+      "compound_id": "BRD-A55756846",
+      "compound_name": "H-7",
+      "smiles": "CC1CNCCN1S(=O)(=O)c1cccc2cnccc12"
+    },
+    {
+      "compound_id": "BRD-K18742343",
+      "compound_name": "H-8",
+      "smiles": "CNCCNS(=O)(=O)c1cccc2cnccc12"
+    },
+    {
+      "compound_id": "BRD-K09790412",
+      "compound_name": "H-9",
+      "smiles": "NCCNCc1cccc2cnccc12"
+    },
+    {
+      "compound_id": "BRD-K70577657",
+      "compound_name": "H-9",
+      "smiles": "NCCNS(=O)(=O)c1cccc2cnccc12"
+    },
+    {
+      "compound_id": "BRD-K43571060",
+      "compound_name": "IQ1",
+      "smiles": "CC(=O)c1ccc(/N=N/C(C(N)=O)=C2/NC(C)(C)Cc3ccccc32)cc1"
+    },
+    {
+      "compound_id": "BRD-K60298136",
+      "compound_name": "ITE",
+      "smiles": "COC(=O)c1csc(C(=O)c2c[nH]c3ccccc23)n1"
+    },
+    {
+      "compound_id": "BRD-A00376169",
+      "compound_name": "KBG",
+      "smiles": "OC1O[C@@H]2COC(c3ccccc3)O[C@H]2[C@H](O)[C@H]1O"
+    },
+    {
+      "compound_id": "BRD-K26015241",
+      "compound_name": "ODQ",
+      "smiles": "O=c1onc2cnc3ccccc3n12"
+    },
+    {
+      "compound_id": "BRD-K43978949",
+      "compound_name": "PIT",
+      "smiles": "O=C1C(c2ccccn2)=[N+]([O-])c2ccccc21"
+    },
+    {
+      "compound_id": "BRD-K00312224",
+      "compound_name": "PPT",
+      "smiles": "CCCc1c(-c2ccc(O)cc2)nn(-c2ccc(O)cc2)c1-c1ccc(O)cc1"
+    },
+    {
+      "compound_id": "BRD-K41415459",
+      "compound_name": "RN1",
+      "smiles": "CN1CCN(C(=O)CN[C@@H]2C[C@H]2c2ccc(OCc3ccccc3)cc2)CC1"
+    },
+    {
+      "compound_id": "BRD-K41868777",
+      "compound_name": "W-5",
+      "smiles": "NCCCCCCNS(=O)(=O)c1cccc2ccccc12"
+    },
+    {
+      "compound_id": "BRD-K90259198",
+      "compound_name": "W-7",
+      "smiles": "NCCCCCCNS(=O)(=O)c1cccc2c(Cl)cccc12"
+    },
+    {
+      "compound_id": "BRD-K68341547",
+      "compound_name": "W-9",
+      "smiles": "NCCCCCCNS(=O)(=O)c1ccc2c(Cl)cccc2c1"
+    },
+    {
+      "compound_id": "BRD-K34437622",
+      "compound_name": "5-FP",
+      "smiles": "Oc1ncc(F)cn1"
+    },
+    {
+      "compound_id": "BRD-K49055432",
+      "compound_name": "A-66",
+      "smiles": "Cc1nc(NC(=O)N2CCC[C@H]2C(N)=O)sc1-c1csc(C(C)(C)C)n1"
+    },
+    {
+      "compound_id": "BRD-A72322024",
+      "compound_name": "APEC",
+      "smiles": "CCNC(=O)C1OC(n2cnc3c(N)nc(NCCc4ccc(CCC(=O)NCCN)cc4)nc32)[C@@H](O)[C@H]1O"
+    },
+    {
+      "compound_id": "BRD-A65145453",
+      "compound_name": "ATPA",
+      "smiles": "CC(C)(C)c1onc(O)c1CC(N)C(=O)O"
+    },
+    {
+      "compound_id": "BRD-A55484088",
+      "compound_name": "BNTX",
+      "smiles": "O=C1/C(=C/c2ccccc2)C[C@@]2(O)C3Cc4ccc(O)c5c4[C@@]2(CCN3CC2CC2)[C@H]1O5"
+    },
+    {
+      "compound_id": "BRD-K15616905",
+      "compound_name": "CCCP",
+      "smiles": "N#CC(C#N)=NNc1cccc(Cl)c1"
+    },
+    {
+      "compound_id": "BRD-K06159959",
+      "compound_name": "CCMQ",
+      "smiles": "O=C(O)Cc1cc2ccccc2nc1C(=O)O"
+    },
+    {
+      "compound_id": "BRD-K19438463",
+      "compound_name": "CNQX",
+      "smiles": "N#Cc1cc2[nH]c(=O)c(=O)[nH]c2cc1[N+](=O)[O-]"
+    },
+    {
+      "compound_id": "BRD-K53545112",
+      "compound_name": "CNQX",
+      "smiles": "N#Cc1cc2nc(O)c(O)nc2cc1[N+](=O)[O-]"
+    },
+    {
+      "compound_id": "BRD-K43234716",
+      "compound_name": "CTPB",
+      "smiles": "CCCCCCCCCCCCCCCc1cccc(OCC)c1C(=O)Nc1ccc(Cl)c(C(F)(F)F)c1"
+    },
+    {
+      "compound_id": "BRD-K53888148",
+      "compound_name": "DASB",
+      "smiles": "[C-]#[N+]c1ccc(Sc2ccccc2CN(C)C)c(N)c1"
+    },
+    {
+      "compound_id": "BRD-K66090100",
+      "compound_name": "DMBA",
+      "smiles": "Cc1c2ccccc2c(C)c2c1ccc1ccccc12"
+    },
+    {
+      "compound_id": "BRD-K96084870",
+      "compound_name": "DMBI",
+      "smiles": "CN(C)c1ccc(/C=C2/C(=O)Nc3ccccc32)cc1"
+    },
+    {
+      "compound_id": "BRD-K85266041",
+      "compound_name": "DNQX",
+      "smiles": "O=[N+]([O-])c1cc2nc(O)c(O)nc2cc1[N+](=O)[O-]"
+    },
+    {
+      "compound_id": "BRD-K80315159",
+      "compound_name": "DPPE",
+      "smiles": "CCN(CC)CCOc1ccc(Cc2ccccc2)cc1"
+    },
+    {
+      "compound_id": "BRD-A96485169",
+      "compound_name": "EBPC",
+      "smiles": "CCOC(=O)C1CN(Cc2ccccc2)C(=O)C1=O"
+    },
+    {
+      "compound_id": "BRD-K27450477",
+      "compound_name": "EHNA",
+      "smiles": "CCCCCC[C@@H]([C@@H](C)O)n1cnc2c(N)ncnc21"
+    },
+    {
+      "compound_id": "BRD-K14821540",
+      "compound_name": "FCCP",
+      "smiles": "N#CC(C#N)=NNc1ccc(OC(F)(F)F)cc1"
+    },
+    {
+      "compound_id": "BRD-K27737647",
+      "compound_name": "H-89",
+      "smiles": "O=S(=O)(NCCNC/C=C/c1ccc(Br)cc1)c1cccc2cnccc12"
+    },
+    {
+      "compound_id": "BRD-K76698671",
+      "compound_name": "HNHA",
+      "smiles": "O=C(CCCCCCSc1ccc2ccccc2c1)NO"
+    },
+    {
+      "compound_id": "BRD-A66435872",
+      "compound_name": "HTMT",
+      "smiles": "CC(CCCCC(=O)Nc1ccc(C(F)(F)F)cc1)NCCc1c[nH]cn1"
+    },
+    {
+      "compound_id": "BRD-K76630978",
+      "compound_name": "IDAM",
+      "smiles": "CN(C)Cc1ccccc1Sc1ccc(I)cc1CO"
+    },
+    {
+      "compound_id": "BRD-K98251413",
+      "compound_name": "IOX2",
+      "smiles": "O=C(O)CNC(=O)c1c(O)c2ccccc2n(Cc2ccccc2)c1=O"
+    },
+    {
+      "compound_id": "BRD-K69840642",
+      "compound_name": "ISOX",
+      "smiles": "CC(C)(C)OC(=O)Nc1ccc(-c2cc(C(=O)NCCCCCCC(=O)NO)no2)cc1"
+    },
+    {
+      "compound_id": "BRD-K82681249",
+      "compound_name": "JS-K",
+      "smiles": "CCOC(=O)N1CCN(/[N+]([O-])=N/Oc2cc([N+](=O)[O-])ccc2[N+](=O)[O-])CC1"
+    },
+    {
+      "compound_id": "BRD-K53328210",
+      "compound_name": "JW55",
+      "smiles": "COc1ccc(C2(CNC(=O)c3ccc(NC(=O)c4ccco4)cc3)CCOCC2)cc1"
+    },
+    {
+      "compound_id": "BRD-K64746805",
+      "compound_name": "MBCQ",
+      "smiles": "Clc1ccc2ncnc(NCc3ccc4c(c3)OCO4)c2c1"
+    },
+    {
+      "compound_id": "BRD-K93201660",
+      "compound_name": "ML-7",
+      "smiles": "O=S(=O)(c1cccc2c(I)cccc12)N1CCCNCC1"
+    },
+    {
+      "compound_id": "BRD-K68402494",
+      "compound_name": "ML-9",
+      "smiles": "O=S(=O)(c1cccc2c(Cl)cccc12)N1CCCNCC1"
+    },
+    {
+      "compound_id": "BRD-K53878242",
+      "compound_name": "MMPX",
+      "smiles": "COCc1nc2c(=O)n(C)c(=O)n(CC(C)C)c2[nH]1"
+    },
+    {
+      "compound_id": "BRD-K60690191",
+      "compound_name": "MPEP",
+      "smiles": "Cc1cccc(C#Cc2ccccc2)n1"
+    },
+    {
+      "compound_id": "BRD-K41143549",
+      "compound_name": "N20C",
+      "smiles": "NC(=O)CNCCC(c1ccccc1)c1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K47717570",
+      "compound_name": "NBQX",
+      "smiles": "NS(=O)(=O)c1cccc2c1c([N+](=O)[O-])cc1nc(O)c(O)nc12"
+    },
+    {
+      "compound_id": "BRD-A35338386",
+      "compound_name": "NECA",
+      "smiles": "CCNC(=O)C1OC(n2cnc3c(N)ncnc32)C(O)C1O"
+    },
+    {
+      "compound_id": "BRD-K48029790",
+      "compound_name": "OBAA",
+      "smiles": "CCCCCCCCCCCCCCCCCCc1ccc(C(=O)C=CC(=O)O)cc1"
+    },
+    {
+      "compound_id": "BRD-K85318537",
+      "compound_name": "OBAA",
+      "smiles": "CCCCCCCCCCCCCCCCCCc1ccc(C(=O)/C=C/C(=O)O)cc1"
+    },
+    {
+      "compound_id": "BRD-A70268693",
+      "compound_name": "PG-9",
+      "smiles": "CC(C(=O)OC1CC2CCC(C1)N2C)c1ccc(Br)cc1"
+    },
+    {
+      "compound_id": "BRD-K33422401",
+      "compound_name": "PMSF",
+      "smiles": "O=S(=O)(F)Cc1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K47598052",
+      "compound_name": "PP-1",
+      "smiles": "Cc1ccc(-c2nn(C(C)(C)C)c3ncnc(N)c23)cc1"
+    },
+    {
+      "compound_id": "BRD-K95785537",
+      "compound_name": "PP-2",
+      "smiles": "CC(C)(C)n1nc(-c2ccc(Cl)cc2)c2c(N)ncnc21"
+    },
+    {
+      "compound_id": "BRD-K16977723",
+      "compound_name": "PP-3",
+      "smiles": "Nc1ncnc2c1cnn2-c1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K16554956",
+      "compound_name": "PTB1",
+      "smiles": "N#Cc1ccc2cc(Br)c(C(F)(F)P(=O)(O)O)cc2c1"
+    },
+    {
+      "compound_id": "BRD-K00317371",
+      "compound_name": "RITA",
+      "smiles": "OCc1ccc(-c2ccc(-c3ccc(CO)s3)o2)s1"
+    },
+    {
+      "compound_id": "BRD-K25875056",
+      "compound_name": "SC-9",
+      "smiles": "O=S(=O)(NCCCCCCc1ccccc1)c1cccc2c(Cl)cccc12"
+    },
+    {
+      "compound_id": "BRD-K50002132",
+      "compound_name": "TBEP",
+      "smiles": "CC[n+]1ccccc1Br"
+    },
+    {
+      "compound_id": "BRD-A31195449",
+      "compound_name": "TCB2",
+      "smiles": "COc1cc(Br)c(OC)c2c1C(CN)C2"
+    },
+    {
+      "compound_id": "BRD-K49119234",
+      "compound_name": "TMPH",
+      "smiles": "CCCCCCC(=O)OC1CC(C)(C)NC(C)(C)C1"
+    },
+    {
+      "compound_id": "BRD-K78084463",
+      "compound_name": "W-12",
+      "smiles": "NCCCCNS(=O)(=O)c1ccc2ccccc2c1"
+    },
+    {
+      "compound_id": "BRD-K45068323",
+      "compound_name": "W-13",
+      "smiles": "NCCCCNS(=O)(=O)c1ccc2c(Cl)cccc2c1"
+    },
+    {
+      "compound_id": "BRD-K60476892",
+      "compound_name": "YC-1",
+      "smiles": "OCc1ccc(-c2nn(Cc3ccccc3)c3ccccc23)o1"
+    },
+    {
+      "compound_id": "BRD-A04026261",
+      "compound_name": "YO-2",
+      "smiles": "CCCCCCCCNC(=O)C(Cc1ccc(OCc2ccncc2)cc1)NC(=O)C1CCC(CN)CC1"
+    },
+    {
+      "compound_id": "BRD-K54168243",
+      "compound_name": "Z-36",
+      "smiles": "COc1ccc2[nH]cc(/C=C3\\C(=O)N(CCCN(C)C)c4ccc(F)cc43)c2c1"
+    },
+    {
+      "compound_id": "BRD-K16037980",
+      "compound_name": "Z160",
+      "smiles": "O=C(CC(c1ccccc1)c1ccccc1)N1CCN(C(c2ccccc2)c2ccccc2)CC1"
+    },
+    {
+      "compound_id": "BRD-K75844781",
+      "compound_name": "mCPP",
+      "smiles": "Clc1cccc(N2CCNCC2)c1"
+    },
+    {
+      "compound_id": "BRD-K88052444",
+      "compound_name": "urea",
+      "smiles": "NC(N)=O"
+    },
+    {
+      "compound_id": "BRD-K68633617",
+      "compound_name": "ACDPP",
+      "smiles": "CN(C)c1nc(N)c(C(=O)Nc2cccnc2)nc1Cl"
+    },
+    {
+      "compound_id": "BRD-K51223576",
+      "compound_name": "AG-99",
+      "smiles": "N#CC(=Cc1ccc(O)c(O)c1)C(N)=O"
+    },
+    {
+      "compound_id": "BRD-K32536677",
+      "compound_name": "AGK-2",
+      "smiles": "N#C/C(=C\\c1ccc(-c2cc(Cl)ccc2Cl)o1)C(=O)Nc1cccc2ncccc12"
+    },
+    {
+      "compound_id": "BRD-K59013864",
+      "compound_name": "AM-24",
+      "smiles": "Oc1c(I)cc(I)cc1I"
+    },
+    {
+      "compound_id": "BRD-K42436189",
+      "compound_name": "AZ-20",
+      "smiles": "C[C@@H]1COCCN1c1cc(C2(S(C)(=O)=O)CC2)nc(-c2cccc3[nH]ccc23)n1"
+    },
+    {
+      "compound_id": "BRD-A16694057",
+      "compound_name": "BADGE",
+      "smiles": "CC(C)(c1ccc(OCC2CO2)cc1)c1ccc(OCC2CO2)cc1"
+    },
+    {
+      "compound_id": "BRD-K87066636",
+      "compound_name": "BOX-5",
+      "smiles": "CSCC[C@H](NC(=O)OC(C)(C)C)C(=O)N[C@@H](CC(=O)O)C(=O)NCC(=O)N[C@@H](CS)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CC(C)C)C(=O)O"
+    },
+    {
+      "compound_id": "BRD-K53263234",
+      "compound_name": "CITCO",
+      "smiles": "Clc1ccc(-c2nc3sccn3c2/C=N/OCc2ccc(Cl)c(Cl)c2)cc1"
+    },
+    {
+      "compound_id": "BRD-A59431241",
+      "compound_name": "COL-3",
+      "smiles": "NC(=O)C1C(=O)C[C@@H]2C[C@@H]3Cc4cccc(O)c4C(=O)C3C(=O)[C@]2(O)C1=O"
+    },
+    {
+      "compound_id": "BRD-A77118605",
+      "compound_name": "D-609",
+      "smiles": "S=C(S)OC1CC2CC1C1CCCC21"
+    },
+    {
+      "compound_id": "BRD-A39255369",
+      "compound_name": "DCPIB",
+      "smiles": "CCCCC1(C2CCCC2)Cc2cc(OCCCC(=O)O)c(Cl)c(Cl)c2C1=O"
+    },
+    {
+      "compound_id": "BRD-K06014311",
+      "compound_name": "DH-97",
+      "smiles": "CCCCC(=O)NCCc1c(Cc2ccccc2)[nH]c2ccccc12"
+    },
+    {
+      "compound_id": "BRD-K31699485",
+      "compound_name": "DMeOB",
+      "smiles": "COc1cccc(C=NC=Nc2cccc(OC)c2)c1"
+    },
+    {
+      "compound_id": "BRD-K01824921",
+      "compound_name": "DPCPX",
+      "smiles": "CCCn1c(=O)c2nc(C3CCCC3)[nH]c2n(CCC)c1=O"
+    },
+    {
+      "compound_id": "BRD-K99922388",
+      "compound_name": "DPO-1",
+      "smiles": "CC(C)[C@@H]1CC[C@@H](C)C[C@@H]1P(=O)(c1ccccc1)c1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K72161580",
+      "compound_name": "DY-44",
+      "smiles": "C[C@@H]1ON(c2ccccc2)[C@H](c2ccccc2)[C@H]1C(=O)O"
+    },
+    {
+      "compound_id": "BRD-K78633253",
+      "compound_name": "EXO-1",
+      "smiles": "COC(=O)c1ccccc1NC(=O)c1ccc(F)cc1"
+    },
+    {
+      "compound_id": "BRD-K97056771",
+      "compound_name": "GNF-2",
+      "smiles": "NC(=O)c1cccc(-c2cc(Nc3ccc(OC(F)(F)F)cc3)ncn2)c1"
+    },
+    {
+      "compound_id": "BRD-K65285700",
+      "compound_name": "GP-1a",
+      "smiles": "Cc1ccc2c(c1)Cc1c(C(=O)NN3CCCCC3)nn(-c3ccc(Cl)cc3Cl)c1-2"
+    },
+    {
+      "compound_id": "BRD-K34608650",
+      "compound_name": "GP-2a",
+      "smiles": "Cc1ccc2c(c1)Cc1c(C(=O)NC3CCCCC3)nn(-c3ccc(Cl)cc3Cl)c1-2"
+    },
+    {
+      "compound_id": "BRD-A41250203",
+      "compound_name": "GP-42",
+      "smiles": "COc1cc(/C=C/C(=O)N2C(=O)C=CCC2c2cccnc2)cc(OC)c1OC"
+    },
+    {
+      "compound_id": "BRD-K69241845",
+      "compound_name": "IM-12",
+      "smiles": "Cc1[nH]c2ccccc2c1C1=C(NCCc2ccc(F)cc2)C(=O)N(C)C1=O"
+    },
+    {
+      "compound_id": "BRD-K82924899",
+      "compound_name": "IWP-2",
+      "smiles": "Cc1ccc2nc(NC(=O)CSc3nc4c(c(=O)n3-c3ccccc3)SCC4)sc2c1"
+    },
+    {
+      "compound_id": "BRD-K22010301",
+      "compound_name": "JLK-6",
+      "smiles": "COc1oc(=O)c2cc(N)ccc2c1Cl"
+    },
+    {
+      "compound_id": "BRD-A67748489",
+      "compound_name": "K-858",
+      "smiles": "CC(=O)NC1=NN(C(C)=O)C(C)(c2ccccc2)S1"
+    },
+    {
+      "compound_id": "BRD-K14482023",
+      "compound_name": "K1448",
+      "smiles": "C[C@H](CO)N1C[C@H](C)[C@H](CN(C)Cc2ccc(C(=O)Nc3ccccc3N)cc2)Oc2ccc(NC(=O)C3CCCCC3)cc2CC1=O"
+    },
+    {
+      "compound_id": "BRD-A81177136",
+      "compound_name": "KN-62",
+      "smiles": "CN(C(Cc1ccc(OS(=O)(=O)c2cccc3cnccc23)cc1)C(=O)N1CCN(c2ccccc2)CC1)S(=O)(=O)c1cccc2cnccc12"
+    },
+    {
+      "compound_id": "BRD-K93480852",
+      "compound_name": "KN-93",
+      "smiles": "COc1ccc(S(=O)(=O)N(CCO)c2ccccc2CN(C)C/C=C/c2ccc(Cl)cc2)cc1"
+    },
+    {
+      "compound_id": "BRD-A51696495",
+      "compound_name": "KW-06",
+      "smiles": "COc1ccc(CNC2CC2c2ccc(Br)cc2)c(Cl)c1OC"
+    },
+    {
+      "compound_id": "BRD-K45528773",
+      "compound_name": "M-344",
+      "smiles": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)NO)cc1"
+    },
+    {
+      "compound_id": "BRD-A99449986",
+      "compound_name": "MT-21",
+      "smiles": "CCCCCCCCN1C(=O)C(C(C)=O)=C(C)C1(C)O"
+    },
+    {
+      "compound_id": "BRD-K82522873",
+      "compound_name": "N6022",
+      "smiles": "Cc1cc(C(N)=O)ccc1-n1c(CCC(=O)O)ccc1-c1ccc(-n2ccnc2)cc1"
+    },
+    {
+      "compound_id": "BRD-A94413429",
+      "compound_name": "NTNCB",
+      "smiles": "O=[N+]([O-])c1ccccc1S(=O)(=O)NCC1CCC(CNCC2CCc3ccccc3C2)CC1"
+    },
+    {
+      "compound_id": "BRD-K50841342",
+      "compound_name": "PAC-1",
+      "smiles": "C=CCc1cccc(C=NNC(=O)CN2CCN(Cc3ccccc3)CC2)c1O"
+    },
+    {
+      "compound_id": "BRD-K92991072",
+      "compound_name": "PAC-1",
+      "smiles": "C=CCc1cccc(/C=N/NC(=O)CN2CCN(Cc3ccccc3)CC2)c1O"
+    },
+    {
+      "compound_id": "BRD-A93477898",
+      "compound_name": "PETCM",
+      "smiles": "OC(Cc1ccncc1)C(Cl)(Cl)Cl"
+    },
+    {
+      "compound_id": "BRD-K13094524",
+      "compound_name": "PFI-1",
+      "smiles": "COc1ccccc1S(=O)(=O)Nc1ccc2c(c1)CN(C)C(=O)N2"
+    },
+    {
+      "compound_id": "BRD-A48257147",
+      "compound_name": "PHCCC",
+      "smiles": "O=C(Nc1ccccc1)C12CC1C(=NO)c1ccccc1O2"
+    },
+    {
+      "compound_id": "BRD-K76568384",
+      "compound_name": "PHTPP",
+      "smiles": "Oc1ccc(-c2c(-c3ccccc3)nn3c(C(F)(F)F)cc(C(F)(F)F)nc23)cc1"
+    },
+    {
+      "compound_id": "BRD-K11853856",
+      "compound_name": "PJ-34",
+      "smiles": "CN(C)CC(=O)Nc1ccc2[nH]c(=O)c3ccccc3c2c1"
+    },
+    {
+      "compound_id": "BRD-K30677119",
+      "compound_name": "PP-30",
+      "smiles": "CC(C)n1nc(-c2cccc(C(=O)NC3=NCCC3)c2)c2c(N)ncnc21"
+    },
+    {
+      "compound_id": "BRD-K87112191",
+      "compound_name": "PP242",
+      "smiles": "CC(C)n1nc(-c2cc3cc(O)ccc3[nH]2)c2c(N)ncnc21"
+    },
+    {
+      "compound_id": "BRD-A56592690",
+      "compound_name": "PX-12",
+      "smiles": "CCC(C)SSc1ncc[nH]1"
+    },
+    {
+      "compound_id": "BRD-K02526760",
+      "compound_name": "QS-11",
+      "smiles": "OC[C@H](Cc1ccccc1)Nc1nc(Oc2ccc3c(c2)CCC3)nc2c1ncn2Cc1ccc(-c2ccccc2)cc1"
+    },
+    {
+      "compound_id": "BRD-K14870255",
+      "compound_name": "R-428",
+      "smiles": "Nc1nc(Nc2ccc3c(c2)CC[C@@H](N2CCCC2)CC3)nn1-c1cc2c(nn1)-c1ccccc1CCC2"
+    },
+    {
+      "compound_id": "BRD-K52233191",
+      "compound_name": "R-547",
+      "smiles": "COc1ccc(F)c(F)c1C(=O)c1cnc(NC2CCN(S(C)(=O)=O)CC2)nc1N"
+    },
+    {
+      "compound_id": "BRD-K40213712",
+      "compound_name": "SAL-1",
+      "smiles": "O=c1[nH]c(=O)c2nc3ccccc3nc2[nH]1"
+    },
+    {
+      "compound_id": "BRD-K05361803",
+      "compound_name": "SC-10",
+      "smiles": "CCCCCCCNS(=O)(=O)c1cccc2c(Cl)cccc12"
+    },
+    {
+      "compound_id": "BRD-K89561498",
+      "compound_name": "SN-38",
+      "smiles": "CCc1c2c(nc3ccc(O)cc13)-c1cc3c(c(=O)n1C2)COC(=O)[C@]3(O)CC"
+    },
+    {
+      "compound_id": "BRD-A36630025",
+      "compound_name": "SN-38",
+      "smiles": "CCc1c2c(nc3ccc(O)cc13)-c1cc3c(c(=O)n1C2)COC(=O)C3(O)CC"
+    },
+    {
+      "compound_id": "BRD-K18905250",
+      "compound_name": "ST-91",
+      "smiles": "CCc1cccc(CC)c1N=C1NCCN1"
+    },
+    {
+      "compound_id": "BRD-K94887716",
+      "compound_name": "TFMPP",
+      "smiles": "FC(F)(F)c1cccc(N2CCNCC2)c1"
+    },
+    {
+      "compound_id": "BRD-K19939891",
+      "compound_name": "TIC10",
+      "smiles": "Cc1ccccc1CN1C2=NCCN2C(=O)C2=C1CCN(Cc1ccccc1)C2"
+    },
+    {
+      "compound_id": "BRD-K49685476",
+      "compound_name": "TTNPB",
+      "smiles": "C/C(=C\\c1ccc(C(=O)O)cc1)c1ccc2c(c1)C(C)(C)CCC2(C)C"
+    },
+    {
+      "compound_id": "BRD-K68246049",
+      "compound_name": "TTNPB",
+      "smiles": "CC(=Cc1ccc(C(=O)O)cc1)c1ccc2c(c1)C(C)(C)CCC2(C)C"
+    },
+    {
+      "compound_id": "BRD-K28360340",
+      "compound_name": "TW-37",
+      "smiles": "CC(C)c1ccccc1Cc1cc(C(=O)Nc2ccc(S(=O)(=O)c3ccccc3C(C)(C)C)cc2)c(O)c(O)c1O"
+    },
+    {
+      "compound_id": "BRD-K46419649",
+      "compound_name": "U0126",
+      "smiles": "N#CC(=C(N)Sc1ccccc1N)C(C#N)=C(N)Sc1ccccc1N"
+    },
+    {
+      "compound_id": "BRD-K94832621",
+      "compound_name": "Y-134",
+      "smiles": "CC(C)N1CCN(c2ccc(C(=O)c3c(-c4ccc(O)cc4)sc4cc(O)ccc34)cc2)CC1"
+    },
+    {
+      "compound_id": "BRD-K77876724",
+      "compound_name": "YL-51",
+      "smiles": "CC[C@H](C)[C@H](NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@@H](NC(=O)CCNC(C)=O)C(C)C)C(=O)N[C@]1(C)CCC/C=C\\CCC[C@](C)(C(=O)N[C@@H](C)C(=O)N2CCC[C@H]2C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](Cc2ccc(O)cc2)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CCCNC(=N)N)C(N)=O)NC(=O)[C@H](CC(C)C)NC(=O)[C@@H]2CCCN2C(=O)[C@H](CCSC)NC1=O"
+    },
+    {
+      "compound_id": "BRD-K32737443",
+      "compound_name": "YL-52",
+      "smiles": "CC[C@H](C)[C@H](NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@@H](NC(=O)CCNC(C)=O)C(C)C)C(=O)N[C@]1(C)CCC/C=C\\CCC[C@](C)(C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](Cc2ccc(O)cc2)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CCCNC(=N)N)C(N)=O)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCSC)NC1=O"
+    },
+    {
+      "compound_id": "BRD-K45878950",
+      "compound_name": "YL-53",
+      "smiles": "CCCC[C@@H]1NC(=O)[C@](C)(NC(=O)[C@@H](NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@@H](NC(=O)CCNC(C)=O)C(C)C)[C@@H](C)CC)CCC/C=C\\CCC[C@](C)(C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](Cc2ccc(O)cc2)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CCCNC(=N)N)C(N)=O)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CC(C)C)NC1=O"
+    },
+    {
+      "compound_id": "BRD-K58306044",
+      "compound_name": "YL-54",
+      "smiles": "CC[C@H](C)[C@H](NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)CCNC(C)=O)C(=O)N[C@]1(C)CCC/C=C\\CCC[C@](C)(C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](CCCNC(=N)N)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CCCNC(=N)N)C(=O)O)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCSC)NC1=O"
+    },
+    {
+      "compound_id": "BRD-K71199328",
+      "compound_name": "YL-55",
+      "smiles": "CCCC[C@@H]1NC(=O)[C@](C)(NC(=O)[C@@H](NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)CCNC(C)=O)[C@@H](C)CC)CCC/C=C\\CCC[C@](C)(C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](CCCNC(=N)N)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](CCCNC(=N)N)C(=O)O)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CC(C)C)NC1=O"
+    },
+    {
+      "compound_id": "BRD-K20514654",
+      "compound_name": "YL-59",
+      "smiles": "CC[C@H](C)[C@H](NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)CCNC(C)=O)C(=O)N[C@@H](CCC(N)=O)C(=O)N[C@@H](CCSC)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](CCCNC(=N)N)C(=O)N[C@]1(C)CCC/C=C\\CCC[C@](C)(C(=O)N[C@@H](CCCNC(=N)N)C(N)=O)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCC(=O)O)NC1=O"
+    },
+    {
+      "compound_id": "BRD-K22507586",
+      "compound_name": "YL-60",
+      "smiles": "CCCC[C@H](NC(=O)[C@H](CCC(N)=O)NC(=O)[C@@H](NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)CCNC(C)=O)[C@@H](C)CC)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CC(C)C)C(=O)N[C@@H](CCC(=O)O)C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)N[C@@H](CC(N)=O)C(=O)N[C@@H](CCCNC(=N)N)C(=O)N[C@]1(C)CCC/C=C\\CCC[C@](C)(C(=O)N[C@@H](CCCNC(=N)N)C(N)=O)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCC(=O)O)NC1=O"
+    },
+    {
+      "compound_id": "BRD-K55473186",
+      "compound_name": "YL-61",
+      "smiles": "CC[C@H](C)[C@H](NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCC(=O)O)NC(=O)CCNC(C)=O)C(=O)N[C@]1(C)CCC/C=C\\CCC[C@](C)(C(=O)N[C@@H](Cc2c[nH]cn2)C(=O)N[C@@H](Cc2c[nH]cn2)C(=O)N[C@@H](CO)C(=O)N[C@H](C(N)=O)[C@@H](C)O)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CS)NC(=O)[C@H](CC(C)C)NC1=O"
+    },
+    {
+      "compound_id": "BRD-K83932973",
+      "compound_name": "YL-62",
+      "smiles": "CC[C@H](C)[C@H](NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CCC(=O)O)NC(=O)[C@H](Cc1c[nH]c2ccccc12)NC(=O)CCNC(C)=O)C(=O)N[C@]1(C)CCC/C=C\\CCC[C@](C)(C(=O)N[C@@H](Cc2c[nH]cn2)C(=O)N[C@@H](Cc2c[nH]cn2)C(=O)N[C@@H](CO)C(=O)N[C@H](C(N)=O)[C@@H](C)O)NC(=O)[C@H](CCCNC(=N)N)NC(=O)[C@H](CS)NC(=O)[C@H](CC(C)C)NC1=O"
+    },
+    {
+      "compound_id": "BRD-K61860715",
+      "compound_name": "ZG-10",
+      "smiles": "CN(C)C/C=C/C(=O)Nc1ccc(C(=O)Nc2cccc(Nc3nccc(-c4cccnc4)n3)c2)cc1"
+    },
+    {
+      "compound_id": "BRD-K54847683",
+      "compound_name": "equol",
+      "smiles": "Oc1ccc([C@H]2COc3cc(O)ccc3C2)cc1"
+    },
+    {
+      "compound_id": "BRD-A74907996",
+      "compound_name": "equol",
+      "smiles": "Oc1ccc(C2COc3cc(O)ccc3C2)cc1"
+    },
+    {
+      "compound_id": "BRD-K18157228",
+      "compound_name": "fdcyd",
+      "smiles": "Nc1nc(=O)n([C@H]2C[C@H](O)[C@@H](CO)O2)cc1F"
+    },
+    {
+      "compound_id": "BRD-K65278478",
+      "compound_name": "furan",
+      "smiles": "c1ccoc1"
+    },
+    {
+      "compound_id": "BRD-M40783228",
+      "compound_name": "mesna",
+      "smiles": "O=S(=O)(O)CCS"
+    },
+    {
+      "compound_id": "BRD-K55420858",
+      "compound_name": "mirin",
+      "smiles": "NC1=NC(=O)/C(=C/c2ccc(O)cc2)S1"
+    },
+    {
+      "compound_id": "BRD-K11590034",
+      "compound_name": "morin",
+      "smiles": "O=c1c(O)c(-c2ccc(O)cc2O)oc2cc(O)cc(O)c12"
+    },
+    {
+      "compound_id": "BRD-K03568070",
+      "compound_name": "nerol",
+      "smiles": "CC(C)=CCC/C(C)=C/CO"
+    },
+    {
+      "compound_id": "BRD-A76747559",
+      "compound_name": "rutin",
+      "smiles": "C[C@@H]1O[C@@H](OC[C@H]2OC(Oc3c(-c4ccc(O)c(O)c4)oc4cc(O)cc(O)c4c3=O)[C@H](O)[C@@H](O)[C@@H]2O)[C@H](O)[C@H](O)[C@H]1O"
+    },
+    {
+      "compound_id": "BRD-A34907681",
+      "compound_name": "rutin",
+      "smiles": "CC1OC(OCC2OC(Oc3c(-c4ccc(O)c(O)c4)oc4cc(O)cc(O)c4c3=O)C(O)C(O)C2O)C(O)C(O)C1O"
+    },
+    {
+      "compound_id": "BRD-K20482099",
+      "compound_name": "rutin",
+      "smiles": "C[C@@H]1O[C@@H](OC[C@H]2O[C@@H](Oc3c(-c4ccc(O)c(O)c4)oc4cc(O)cc(O)c4c3=O)[C@H](O)[C@@H](O)[C@@H]2O)[C@H](O)[C@H](O)[C@H]1O"
+    },
+    {
+      "compound_id": "BRD-K61829047",
+      "compound_name": "7b-cis",
+      "smiles": "CCOC(=O)/C=C\\n1nnc(-c2cccc(Cl)c2)n1"
+    },
+    {
+      "compound_id": "BRD-K33204703",
+      "compound_name": "AG-370",
+      "smiles": "N#CC(C#N)=C(N)/C(C#N)=C/c1ccc2[nH]ccc2c1"
+    },
+    {
+      "compound_id": "BRD-K12357156",
+      "compound_name": "AG-490",
+      "smiles": "N#CC(=Cc1ccc(O)c(O)c1)C(=O)NCc1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K47105409",
+      "compound_name": "AG-490",
+      "smiles": "N#C/C(=C\\c1ccc(O)c(O)c1)C(=O)NCc1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K81209512",
+      "compound_name": "AG-494",
+      "smiles": "N#CC(=Cc1ccc(O)c(O)c1)C(=O)Nc1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K89930444",
+      "compound_name": "AG-592",
+      "smiles": "N#C/C(=C\\c1ccc(O)c(O)c1)C(=O)NC1CCC(CC2CCC(NC(=O)/C(C#N)=C/c3ccc(O)c(O)c3)CC2)CC1"
+    },
+    {
+      "compound_id": "BRD-K36737713",
+      "compound_name": "AG-957",
+      "smiles": "COC(=O)c1ccc(NCc2cc(O)ccc2O)cc1"
+    },
+    {
+      "compound_id": "BRD-K92000912",
+      "compound_name": "AM-251",
+      "smiles": "Cc1c(C(=O)NN2CCCCC2)nn(-c2ccc(Cl)cc2Cl)c1-c1ccc(I)cc1"
+    },
+    {
+      "compound_id": "BRD-K59419204",
+      "compound_name": "AM-281",
+      "smiles": "Cc1c(C(=O)NN2CCOCC2)nn(-c2ccc(Cl)cc2Cl)c1-c1ccc(I)cc1"
+    },
+    {
+      "compound_id": "BRD-K21667562",
+      "compound_name": "AM-404",
+      "smiles": "CCCCCC=CCC=CCC=CCC=CCCCC(=O)Nc1ccc(O)cc1"
+    },
+    {
+      "compound_id": "BRD-K55462201",
+      "compound_name": "AM-404",
+      "smiles": "CCCCC/C=C\\C/C=C\\C/C=C\\C/C=C\\CCCC(=O)Nc1ccc(O)cc1"
+    },
+    {
+      "compound_id": "BRD-K06854232",
+      "compound_name": "AM-580",
+      "smiles": "CC1(C)CCC(C)(C)c2cc(C(=O)Nc3ccc(C(=O)O)cc3)ccc21"
+    },
+    {
+      "compound_id": "BRD-K63533170",
+      "compound_name": "AM-630",
+      "smiles": "COc1ccc(C(=O)c2c(C)n(CCN3CCOCC3)c3cc(I)ccc23)cc1"
+    },
+    {
+      "compound_id": "BRD-K30331124",
+      "compound_name": "ASC-J9",
+      "smiles": "COc1ccc(/C=C/C(=O)CC(=O)/C=C/c2ccc(OC)c(OC)c2)cc1OC"
+    },
+    {
+      "compound_id": "BRD-K12040459",
+      "compound_name": "AT7867",
+      "smiles": "Clc1ccc(C2(c3ccc(-c4cn[nH]c4)cc3)CCNCC2)cc1"
+    },
+    {
+      "compound_id": "BRD-K23190681",
+      "compound_name": "AV-412",
+      "smiles": "C=CC(=O)Nc1cc2c(Nc3ccc(F)c(Cl)c3)ncnc2cc1C#CC(C)(C)N1CCN(C)CC1"
+    },
+    {
+      "compound_id": "BRD-K96615647",
+      "compound_name": "AV-608",
+      "smiles": "O=C(N[C@H]1CCN(C(=O)c2cc(C(F)(F)F)cc(C(F)(F)F)c2)[C@H](Cc2ccc(Cl)cc2)C1)c1ccnc2ccccc12"
+    },
+    {
+      "compound_id": "BRD-K05804044",
+      "compound_name": "AZ-628",
+      "smiles": "Cc1ccc(NC(=O)c2cccc(C(C)(C)C#N)c2)cc1Nc1ccc2ncn(C)c(=O)c2c1"
+    },
+    {
+      "compound_id": "BRD-A38913120",
+      "compound_name": "BH3I-1",
+      "smiles": "CC(C)C(C(=O)O)N1C(=O)/C(=C/c2ccc(Br)cc2)SC1=S"
+    },
+    {
+      "compound_id": "BRD-A71799696",
+      "compound_name": "BH3I-1",
+      "smiles": "CC(C)C(C(=O)O)N1C(=O)/C(=C/c2ccccc2)SC1=S"
+    },
+    {
+      "compound_id": "BRD-K04701986",
+      "compound_name": "BL-050",
+      "smiles": "O=C(O)CCc1cc(I)c(O)c(I)c1"
+    },
+    {
+      "compound_id": "BRD-A38878059",
+      "compound_name": "BL-077",
+      "smiles": "CC(=O)C1CC[C@H]2[C@@H]3CC[C@@H]4CC(=O)CC[C@]4(C)[C@H]3CC[C@]12C"
+    },
+    {
+      "compound_id": "BRD-K45479396",
+      "compound_name": "BP-554",
+      "smiles": "c1ccc(N2CCN(CCCOc3ccc4c(c3)OCO4)CC2)cc1"
+    },
+    {
+      "compound_id": "BRD-K17378184",
+      "compound_name": "BP-897",
+      "smiles": "COc1ccccc1N1CCN(CCCCNC(=O)c2ccc3ccccc3c2)CC1"
+    },
+    {
+      "compound_id": "BRD-K31313613",
+      "compound_name": "BS-181",
+      "smiles": "CC(C)c1cnn2c(NCc3ccccc3)cc(NCCCCCCN)nc12"
+    },
+    {
+      "compound_id": "BRD-K55344148",
+      "compound_name": "BU-224",
+      "smiles": "c1ccc2nc(C3=NCCN3)ccc2c1"
+    },
+    {
+      "compound_id": "BRD-K56115039",
+      "compound_name": "BU-226",
+      "smiles": "c1ccc2cc(C3=NCCN3)ncc2c1"
+    },
+    {
+      "compound_id": "BRD-K11696279",
+      "compound_name": "BU-239",
+      "smiles": "c1ccc2nc(C3=NCCN3)cnc2c1"
+    },
+    {
+      "compound_id": "BRD-K47983010",
+      "compound_name": "BX-795",
+      "smiles": "O=C(NCCCNc1nc(Nc2cccc(NC(=O)N3CCCC3)c2)ncc1I)c1cccs1"
+    },
+    {
+      "compound_id": "BRD-K49669041",
+      "compound_name": "BX-912",
+      "smiles": "O=C(Nc1cccc(Nc2ncc(Br)c(NCCc3c[nH]cn3)n2)c1)N1CCCC1"
+    },
+    {
+      "compound_id": "BRD-K45746021",
+      "compound_name": "CC-401",
+      "smiles": "c1cc(OCCN2CCCCC2)cc(-c2n[nH]c3ccc(-c4ncn[nH]4)cc23)c1"
+    },
+    {
+      "compound_id": "BRD-K48213016",
+      "compound_name": "CC-930",
+      "smiles": "O[C@H]1CC[C@H](Nc2ncc3nc(Nc4c(F)cc(F)cc4F)n([C@H]4CCOC4)c3n2)CC1"
+    },
+    {
+      "compound_id": "BRD-K28907958",
+      "compound_name": "CD-437",
+      "smiles": "O=C(O)c1ccc2cc(-c3ccc(O)c(C45CC6CC(CC(C6)C4)C5)c3)ccc2c1"
+    },
+    {
+      "compound_id": "BRD-K76969307",
+      "compound_name": "CG-930",
+      "smiles": "OC1CCC(Nc2ncc3nc(Nc4c(F)cc(F)cc4F)n([C@@H]4CCOC4)c3n2)CC1"
+    },
+    {
+      "compound_id": "BRD-K84085265",
+      "compound_name": "CG-930",
+      "smiles": "O[C@H]1CC[C@@H](Nc2ncc3nc(Nc4c(F)cc(F)cc4F)n([C@@H]4CCOC4)c3n2)CC1"
+    },
+    {
+      "compound_id": "BRD-K67680372",
+      "compound_name": "CI-966",
+      "smiles": "O=C(O)C1=CCCN(CCOC(c2ccc(C(F)(F)F)cc2)c2ccc(C(F)(F)F)cc2)C1"
+    },
+    {
+      "compound_id": "BRD-K88544581",
+      "compound_name": "CI-976",
+      "smiles": "CCCCCCCCCCC(C)(C)C(=O)Nc1c(OC)cc(OC)cc1OC"
+    },
+    {
+      "compound_id": "BRD-K54095730",
+      "compound_name": "CMPD-1",
+      "smiles": "O=C(CCCc1ccc(-c2ccccc2F)cc1)Nc1ccc(O)cc1"
+    },
+    {
+      "compound_id": "BRD-K25140590",
+      "compound_name": "CX-516",
+      "smiles": "O=C(c1ccc2c(c1)OCO2)N1CCCCC1"
+    },
+    {
+      "compound_id": "BRD-K87737963",
+      "compound_name": "CYT387",
+      "smiles": "N#CCNC(=O)c1ccc(-c2ccnc(Nc3ccc(N4CCOCC4)cc3)n2)cc1"
+    },
+    {
+      "compound_id": "BRD-K09132007",
+      "compound_name": "D-4476",
+      "smiles": "NC(=O)c1ccc(-c2nc(-c3ccc4c(c3)OCCO4)c(-c3ccccn3)[nH]2)cc1"
+    },
+    {
+      "compound_id": "BRD-K32526544",
+      "compound_name": "DCEBIO",
+      "smiles": "CCn1c(=O)[nH]c2cc(Cl)c(Cl)cc21"
+    },
+    {
+      "compound_id": "BRD-K33272502",
+      "compound_name": "DG-041",
+      "smiles": "Cc1cn(Cc2ccc(Cl)cc2Cl)c2c(/C=C/C(=O)NS(=O)(=O)c3cc(Cl)c(Cl)s3)cc(F)cc12"
+    },
+    {
+      "compound_id": "BRD-K95212245",
+      "compound_name": "DM-161",
+      "smiles": "COc1ccc(COC[C@H](C)N2C[C@@H](C)[C@H](CN(C)S(=O)(=O)c3ccc(F)cc3)OCCCC[C@H](C)Oc3ccc(NC(=O)Nc4ccccc4)cc3C2=O)cc1"
+    },
+    {
+      "compound_id": "BRD-K06180729",
+      "compound_name": "DM-163",
+      "smiles": "COCCOC(=O)N(C)C[C@@H]1OCCCC[C@H](C)Oc2ccc(NC(=O)Nc3ccccc3)cc2C(=O)N([C@@H](C)CO)C[C@H]1C"
+    },
+    {
+      "compound_id": "BRD-K08859203",
+      "compound_name": "DU-728",
+      "smiles": "N=C(N)NCCC[C@H](N)C(=O)NCC(=O)N[C@@H](CC(=O)O)C(=O)N[C@@H](CO)C(=O)O"
+    },
+    {
+      "compound_id": "BRD-K62353524",
+      "compound_name": "DY-131",
+      "smiles": "CCN(CC)c1ccc(C=NNC(=O)c2ccc(O)cc2)cc1"
+    },
+    {
+      "compound_id": "BRD-K50564936",
+      "compound_name": "E-2012",
+      "smiles": "COc1cc(/C=C2\\CCCN([C@@H](C)c3ccc(F)cc3)C2=O)ccc1-n1cnc(C)c1"
+    },
+    {
+      "compound_id": "BRD-K41713976",
+      "compound_name": "E-4031",
+      "smiles": "Cc1cccc(CCN2CCC(C(=O)c3ccc(NS(C)(=O)=O)cc3)CC2)n1"
+    },
+    {
+      "compound_id": "BRD-A74904029",
+      "compound_name": "EI-231",
+      "smiles": "OC[C@H]1O[C@@H](n2cnc3cc(Cl)c(Cl)cc32)C(O)[C@H]1O"
+    },
+    {
+      "compound_id": "BRD-K32710582",
+      "compound_name": "EI-247",
+      "smiles": "O=P(O)(O)[C@H](O)c1ccc2ccccc2c1"
+    },
+    {
+      "compound_id": "BRD-K56064827",
+      "compound_name": "EI-273",
+      "smiles": "COCc1cc(O)c(O)c(O)c1-c1c(COC)cc(O)c(O)c1O"
+    },
+    {
+      "compound_id": "BRD-K76964878",
+      "compound_name": "EX-527",
+      "smiles": "NC(=O)[C@H]1CCCc2c1[nH]c1ccc(Cl)cc21"
+    },
+    {
+      "compound_id": "BRD-A73908300",
+      "compound_name": "EX-527",
+      "smiles": "NC(=O)C1CCCc2c1[nH]c1ccc(Cl)cc21"
+    },
+    {
+      "compound_id": "BRD-K48112880",
+      "compound_name": "FH-535",
+      "smiles": "Cc1cc([N+](=O)[O-])ccc1NS(=O)(=O)c1cc(Cl)ccc1Cl"
+    },
+    {
+      "compound_id": "BRD-K58550667",
+      "compound_name": "FK-866",
+      "smiles": "O=C(/C=C/c1cccnc1)NCCCCC1CCN(C(=O)c2ccccc2)CC1"
+    },
+    {
+      "compound_id": "BRD-K83508485",
+      "compound_name": "FK-888",
+      "smiles": "CN(Cc1ccccc1)C(=O)[C@H](Cc1ccc2ccccc2c1)NC(=O)[C@@H]1C[C@@H](O)CN1C(=O)c1cn(C)c2ccccc12"
+    },
+    {
+      "compound_id": "BRD-K00184207",
+      "compound_name": "GR-206",
+      "smiles": "O=Cc1c2[nH]c3ccccc3c2cc2[nH]c3ccccc3c12"
+    },
+    {
+      "compound_id": "BRD-K26674531",
+      "compound_name": "GR-235",
+      "smiles": "C/C=C1\\C(=O)C[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@H]3CC[C@]12C"
+    },
+    {
+      "compound_id": "BRD-K32847255",
+      "compound_name": "GSK-J1",
+      "smiles": "O=C([O-])CCNc1cc(N2CCc3ccccc3CC2)nc(-c2ccccn2)n1"
+    },
+    {
+      "compound_id": "BRD-K82484347",
+      "compound_name": "GSK-J2",
+      "smiles": "O=C([O-])CCNc1cc(N2CCc3ccccc3CC2)nc(-c2cccnc2)n1"
+    },
+    {
+      "compound_id": "BRD-K98203492",
+      "compound_name": "GSK-J4",
+      "smiles": "CCOC(=O)CCNc1cc(N2CCc3ccccc3CC2)nc(-c2ccccn2)n1"
+    },
+    {
+      "compound_id": "BRD-K86465814",
+      "compound_name": "HO-013",
+      "smiles": "CCCCC[C@H](O)/C=C/C=C\\CCCCCCCC(=O)O"
+    },
+    {
+      "compound_id": "BRD-A15010982",
+      "compound_name": "HU-211",
+      "smiles": "CCCCCCC(C)(C)c1cc(O)c2c(c1)OC(C)(C)C1CC=C(CO)C[C@H]21"
+    },
+    {
+      "compound_id": "BRD-K85383046",
+      "compound_name": "IAA-94",
+      "smiles": "C[C@@]1(C2CCCC2)Cc2cc(OCC(=O)O)c(Cl)c(Cl)c2C1=O"
+    },
+    {
+      "compound_id": "BRD-K09638361",
+      "compound_name": "IC-261",
+      "smiles": "COc1cc(OC)c(/C=C2/C(=O)Nc3ccccc32)c(OC)c1"
+    },
+    {
+      "compound_id": "BRD-K14618467",
+      "compound_name": "IKK-16",
+      "smiles": "O=C(c1ccc(Nc2nccc(-c3cc4ccccc4s3)n2)cc1)N1CCC(N2CCCC2)CC1"
+    },
+    {
+      "compound_id": "BRD-K33308633",
+      "compound_name": "INCA-6",
+      "smiles": "O=C1C=CC(=O)C2=C1C1c3ccccc3C2c2ccccc21"
+    },
+    {
+      "compound_id": "BRD-K17476933",
+      "compound_name": "ITSA-1",
+      "smiles": "O=C(c1ccc(Cl)cc1Cl)n1nnc2ccccc21"
+    },
+    {
+      "compound_id": "BRD-K19220233",
+      "compound_name": "JNK-9L",
+      "smiles": "N#Cc1cc(-c2ccnc(Nc3ccc(-n4cnc(-c5cccnc5)n4)cc3)n2)cc(N2CCOCC2)c1"
+    },
+    {
+      "compound_id": "BRD-K05464208",
+      "compound_name": "JX-401",
+      "smiles": "COc1cc(SC)ccc1C(=O)N1CCC(Cc2ccccc2)CC1"
+    },
+    {
+      "compound_id": "BRD-K99440638",
+      "compound_name": "K-9944",
+      "smiles": "CC[n+]1c(/C=C2\\C=C(C)CC(C)(C)C2)oc2ccccc21"
+    },
+    {
+      "compound_id": "BRD-K71164191",
+      "compound_name": "KD-023",
+      "smiles": "CCCCCCCCCCCCCCOc1ccc(C(=O)O)o1"
+    },
+    {
+      "compound_id": "BRD-K88506063",
+      "compound_name": "KD-025",
+      "smiles": "CC(C)NC(=O)COc1cccc(-c2nc(Nc3ccc4[nH]ncc4c3)c3ccccc3n2)c1"
+    },
+    {
+      "compound_id": "BRD-K64642496",
+      "compound_name": "KO-143",
+      "smiles": "COc1ccc2c3c([nH]c2c1)[C@H](CC(C)C)N1C(=O)[C@H](CCC(=O)OC(C)(C)C)NC(=O)[C@@H]1C3"
+    },
+    {
+      "compound_id": "BRD-A38747044",
+      "compound_name": "KU-14R",
+      "smiles": "CCC1(c2ncc[nH]2)Cc2ccccc2O1"
+    },
+    {
+      "compound_id": "BRD-K98372770",
+      "compound_name": "L-2167",
+      "smiles": "CCCc1c(OCCCOc2ccc(OCC(=O)O)cc2)ccc(C(C)=O)c1O"
+    },
+    {
+      "compound_id": "BRD-K33141550",
+      "compound_name": "L-NAME",
+      "smiles": "COC(=O)[C@@H](N)CCCNC(=N)N[N+](=O)[O-]"
+    },
+    {
+      "compound_id": "BRD-K06593056",
+      "compound_name": "LE-135",
+      "smiles": "CN1c2cc3c(cc2N=C(c2ccc(C(=O)O)cc2)c2ccccc21)C(C)(C)CCC3(C)C"
+    },
+    {
+      "compound_id": "BRD-K01648091",
+      "compound_name": "LE-300",
+      "smiles": "CN1CCc2ccccc2Cc2[nH]c3ccccc3c2CC1"
+    },
+    {
+      "compound_id": "BRD-K95655893",
+      "compound_name": "MAZ-51",
+      "smiles": "CN(C)c1ccc(/C=C2\\C(=O)Nc3ccccc32)c2ccccc12"
+    },
+    {
+      "compound_id": "BRD-K94335714",
+      "compound_name": "MC1568",
+      "smiles": "Cn1cc(C=CC(=O)c2cccc(F)c2)cc1C=CC(=O)NO"
+    },
+    {
+      "compound_id": "BRD-K83336168",
+      "compound_name": "MD-040",
+      "smiles": "COc1cc(/C=C/C(=O)N2CCC=CC2=O)cc(OC)c1OCCN(C)CCOc1c(OC)cc(/C=C/C(=O)N2CCC=CC2=O)cc1OC"
+    },
+    {
+      "compound_id": "BRD-K74797618",
+      "compound_name": "MD-049",
+      "smiles": "COc1cc(/C=C/C(=O)N2CCC=C(C#Cc3ccccc3F)C2=O)cc(OC)c1OC"
+    },
+    {
+      "compound_id": "BRD-K92758126",
+      "compound_name": "MD-920",
+      "smiles": "C=C1C[C@]23C[C@@]1(O)CC[C@H]2[C@@]12C=C[C@H](O)[C@@](C)(C(=O)O1)[C@H]2[C@@H]3C(=O)O"
+    },
+    {
+      "compound_id": "BRD-K34328244",
+      "compound_name": "MF-101",
+      "smiles": "O=C1C[C@@H](c2ccc(O)cc2)Oc2cc(O)ccc21"
+    },
+    {
+      "compound_id": "BRD-K60230970",
+      "compound_name": "MG-132",
+      "smiles": "CC(C)C[C@@H](C=O)NC(=O)[C@H](CC(C)C)NC(=O)[C@H](CC(C)C)NC(=O)OCc1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K19554809",
+      "compound_name": "MK-212",
+      "smiles": "Clc1cncc(N2CCNCC2)n1"
+    },
+    {
+      "compound_id": "BRD-K29064493",
+      "compound_name": "MK-801",
+      "smiles": "C[C@@]12N[C@@H](Cc3ccccc31)c1ccc([Si](C)(C)C)cc12"
+    },
+    {
+      "compound_id": "BRD-K34722304",
+      "compound_name": "MK-801",
+      "smiles": "C[C@@]12N[C@@H](Cc3ccccc31)c1ccc(I)cc12"
+    },
+    {
+      "compound_id": "BRD-K64835161",
+      "compound_name": "ML-167",
+      "smiles": "Cc1ccc(CNc2ncnc3ccc(-c4ccc(CO)o4)cc23)o1"
+    },
+    {
+      "compound_id": "BRD-K63151507",
+      "compound_name": "MNITMT",
+      "smiles": "Cn1cnnc1Sc1c([N+](=O)[O-])ncn1C"
+    },
+    {
+      "compound_id": "BRD-K52522949",
+      "compound_name": "NCH-51",
+      "smiles": "CC(C)C(=O)SCCCCCCC(=O)Nc1nc(-c2ccccc2)cs1"
+    },
+    {
+      "compound_id": "BRD-K36324071",
+      "compound_name": "NF-449",
+      "smiles": "O=C(Nc1cc(C(=O)Nc2ccc(S(=O)(=O)O)c(S(=O)(=O)O)c2)cc(C(=O)Nc2ccc(S(=O)(=O)O)c(S(=O)(=O)O)c2)c1)Nc1cc(C(=O)Nc2ccc(S(=O)(=O)O)c(S(=O)(=O)O)c2)cc(C(=O)Nc2ccc(S(=O)(=O)O)c(S(=O)(=O)O)c2)c1"
+    },
+    {
+      "compound_id": "BRD-K78278890",
+      "compound_name": "NM-PP1",
+      "smiles": "CC(C)(C)n1nc(Cc2cccc3ccccc23)c2c(N)ncnc21"
+    },
+    {
+      "compound_id": "BRD-K08807999",
+      "compound_name": "NO-ASA",
+      "smiles": "CC(=O)Oc1ccccc1C(=O)Oc1cccc(CO[N+](=O)[O-])c1"
+    },
+    {
+      "compound_id": "BRD-K18316707",
+      "compound_name": "O-1918",
+      "smiles": "C=C(C)[C@@H]1CCC(C)=C[C@H]1c1c(OC)cc(C)cc1OC"
+    },
+    {
+      "compound_id": "BRD-K02590140",
+      "compound_name": "O-2050",
+      "smiles": "CC1=CC[C@@H]2[C@@H](C1)c1c(O)cc(CC#CCCCNS(C)(=O)=O)cc1OC2(C)C"
+    },
+    {
+      "compound_id": "BRD-K21971034",
+      "compound_name": "OM-137",
+      "smiles": "COc1cc(/C=N/NC(=O)c2sc(N)nc2C)ccc1O"
+    },
+    {
+      "compound_id": "BRD-A39522003",
+      "compound_name": "OMDM-2",
+      "smiles": "CCCCCCCCC=CCCCCCCCC(=O)NC(CO)Cc1ccc(O)cc1"
+    },
+    {
+      "compound_id": "BRD-K00206590",
+      "compound_name": "P-1075",
+      "smiles": "CCC(C)(C)N=C(NC#N)Nc1cccnc1"
+    },
+    {
+      "compound_id": "BRD-K96671969",
+      "compound_name": "PA-824",
+      "smiles": "O=[N+]([O-])c1cn2c(n1)OC[C@@H](OCc1ccc(OC(F)(F)F)cc1)C2"
+    },
+    {
+      "compound_id": "BRD-K79877282",
+      "compound_name": "PF-543",
+      "smiles": "Cc1cc(CS(=O)(=O)c2ccccc2)cc(OCc2ccc(CN3CCC[C@@H]3CO)cc2)c1"
+    },
+    {
+      "compound_id": "BRD-K83213911",
+      "compound_name": "PF-750",
+      "smiles": "O=C(Nc1ccccc1)N1CCC(Cc2cnc3ccccc3c2)CC1"
+    },
+    {
+      "compound_id": "BRD-K67868012",
+      "compound_name": "PI-103",
+      "smiles": "Oc1cccc(-c2nc(N3CCOCC3)c3oc4ncccc4c3n2)c1"
+    },
+    {
+      "compound_id": "BRD-K97365803",
+      "compound_name": "PI-828",
+      "smiles": "Nc1ccc(-c2cccc3c(=O)cc(N4CCOCC4)oc23)cc1"
+    },
+    {
+      "compound_id": "BRD-K49371609",
+      "compound_name": "PIK-75",
+      "smiles": "Cc1ccc([N+](=O)[O-])cc1S(=O)(=O)N(C)/N=C/c1cnc2ccc(Br)cn12"
+    },
+    {
+      "compound_id": "BRD-K99818283",
+      "compound_name": "PIK-90",
+      "smiles": "COc1ccc2c(c1OC)N=C(NC(=O)c1cccnc1)N1CCN=C21"
+    },
+    {
+      "compound_id": "BRD-K29395450",
+      "compound_name": "PIK-93",
+      "smiles": "CC(=O)Nc1nc(C)c(-c2ccc(Cl)c(S(=O)(=O)NCCO)c2)s1"
+    },
+    {
+      "compound_id": "BRD-K03618428",
+      "compound_name": "PP-110",
+      "smiles": "CC(C)n1nc(-c2ccc3cn[nH]c3c2)c2c(N)ncnc21"
+    },
+    {
+      "compound_id": "BRD-K67537649",
+      "compound_name": "PQ-401",
+      "smiles": "COc1ccc(Cl)cc1NC(=O)Nc1cc(C)nc2ccccc12"
+    },
+    {
+      "compound_id": "BRD-K15318909",
+      "compound_name": "PRIMA1",
+      "smiles": "O=C1C2CCN(CC2)C1(CO)CO"
+    },
+    {
+      "compound_id": "BRD-K10177585",
+      "compound_name": "PSB-11",
+      "smiles": "CC[C@@H]1CN2C(=O)N(C)c3nc(-c4ccccc4)[nH]c3C2=N1"
+    },
+    {
+      "compound_id": "BRD-A70407468",
+      "compound_name": "PSB-36",
+      "smiles": "CCCCn1c(=O)c2[nH]c(C34CC5CC(CC3C5)C4)nc2n(CCCO)c1=O"
+    },
+    {
+      "compound_id": "BRD-A73680854",
+      "compound_name": "PT-630",
+      "smiles": "NC(CCC(=O)O)C(=O)N1CCC[C@H]1B(O)O"
+    },
+    {
+      "compound_id": "BRD-K36529613",
+      "compound_name": "PU-H71",
+      "smiles": "CC(C)NCCCn1c(Sc2cc3c(cc2I)OCO3)nc2c(N)ncnc21"
+    },
+    {
+      "compound_id": "BRD-K40782193",
+      "compound_name": "QX-222",
+      "smiles": "Cc1cccc(C)c1NC(=O)C[N+](C)(C)C"
+    },
+    {
+      "compound_id": "BRD-K56596464",
+      "compound_name": "QX-314",
+      "smiles": "CC[N+](CC)(CC)CC(=O)Nc1c(C)cccc1C"
+    },
+    {
+      "compound_id": "BRD-K50493736",
+      "compound_name": "RAN-02",
+      "smiles": "CCCN(CCC)c1nc(Cl)nc2ccccc12"
+    },
+    {
+      "compound_id": "BRD-K11758216",
+      "compound_name": "RAN-03",
+      "smiles": "Clc1nc(NCc2ccccc2)c2ccccc2n1"
+    },
+    {
+      "compound_id": "BRD-K28610502",
+      "compound_name": "RAN-05",
+      "smiles": "CCCN(CCC)c1nc(N2CCCC2)nc2ccccc12"
+    },
+    {
+      "compound_id": "BRD-K98381590",
+      "compound_name": "RAN-07",
+      "smiles": "C[C@@H](Nc1nc(Cl)nc2ccccc12)c1ccccc1"
+    },
+    {
+      "compound_id": "BRD-K05114711",
+      "compound_name": "RAN-27",
+      "smiles": "CCCN(CCC)c1nc(N2CCCC2)nc2cc(OC)c(OC)cc12"
+    },
+    {
+      "compound_id": "BRD-K06585517",
+      "compound_name": "RAN-29",
+      "smiles": "CCCN(CCC)c1nc(N2CCNCC2)c2ccccc2n1"
+    },
+    {
+      "compound_id": "BRD-K81925089",
+      "compound_name": "RAN-30",
+      "smiles": "CCCN(CCC)c1nc(N)c2ccccc2n1"
+    },
+    {
+      "compound_id": "BRD-K89391146",
+      "compound_name": "RG-108",
+      "smiles": "O=C(O)[C@H](Cc1c[nH]c2ccccc12)N1C(=O)c2ccccc2C1=O"
+    },
+    {
+      "compound_id": "BRD-A77349281",
+      "compound_name": "RK-682",
+      "smiles": "CCCCCCCCCCCCCCCC(=O)C1C(=O)OC(CO)C1=O"
+    },
+    {
+      "compound_id": "BRD-A25037258",
+      "compound_name": "RTI-55",
+      "smiles": "COC(=O)C1C2CC[C@H](C[C@@H]1c1ccc(I)cc1)N2C"
+    },
+    {
+      "compound_id": "BRD-K83637872",
+      "compound_name": "SANT-1",
+      "smiles": "Cc1nn(-c2ccccc2)c(C)c1C=NN1CCN(Cc2ccccc2)CC1"
+    },
+    {
+      "compound_id": "BRD-K86797399",
+      "compound_name": "SB-939",
+      "smiles": "CCCCc1nc2cc(/C=C/C(=O)NO)ccc2n1CCN(CC)CC"
+    },
+    {
+      "compound_id": "BRD-K14767410",
+      "compound_name": "SC-560",
+      "smiles": "COc1ccc(-n2nc(C(F)(F)F)cc2-c2ccc(Cl)cc2)cc1"
+    },
+    {
+      "compound_id": "BRD-K91904471",
+      "compound_name": "SD-169",
+      "smiles": "NC(=O)c1ccc2[nH]ccc2c1"
+    },
+    {
+      "compound_id": "BRD-K19477839",
+      "compound_name": "SGX523",
+      "smiles": "Cn1cc(-c2ccc3nnc(Sc4ccc5ncccc5c4)n3n2)cn1"
+    },
+    {
+      "compound_id": "BRD-K20755323",
+      "compound_name": "SKI-II",
+      "smiles": "Oc1ccc(Nc2nc(-c3ccc(Cl)cc3)cs2)cc1"
+    },
+    {
+      "compound_id": "BRD-K51476772",
+      "compound_name": "ST-638",
+      "smiles": "CCOc1cc(/C=C(/C#N)C(N)=O)cc(CSc2ccccc2)c1O"
+    },
+    {
+      "compound_id": "BRD-K63516691",
+      "compound_name": "T-0156",
+      "smiles": "COC(=O)c1c(-c2cc(OC)c(OC)c(OC)c2)c2ccnc(OCc3ncccn3)c2c(=O)n1Cc1ccnc(C)c1"
+    },
+    {
+      "compound_id": "BRD-K84925803",
+      "compound_name": "T-5224",
+      "smiles": "O=C(O)CCc1cc(C(=O)c2ccc(OC3CCCC3)cc2O)ccc1OCc1ccc2c(O)noc2c1"
+    },
+    {
+      "compound_id": "BRD-K20958582",
+      "compound_name": "TH-302",
+      "smiles": "Cn1c(COP(=O)(NCCBr)NCCBr)cnc1[N+](=O)[O-]"
+    },
+    {
+      "compound_id": "BRD-K23353440",
+      "compound_name": "TMI-15",
+      "smiles": "Cc1ccc(F)cc1S(=O)(=O)N[C@@H]1CCN(Cc2ccc3[nH]ccc3c2)C1"
+    },
+    {
+      "compound_id": "BRD-K51575138",
+      "compound_name": "TPCA-1",
+      "smiles": "NC(=O)Nc1sc(-c2ccc(F)cc2)cc1C(N)=O"
+    },
+    {
+      "compound_id": "BRD-K48427617",
+      "compound_name": "U-0124",
+      "smiles": "[C-]#[N+]C(=C(/N)SC)/C(C#N)=C(\\N)SC"
+    },
+    {
+      "compound_id": "BRD-K18787491",
+      "compound_name": "U-0126",
+      "smiles": "N#CC(=C(/N)Sc1ccccc1N)/C(C#N)=C(\\N)Sc1ccccc1N"
+    },
+    {
+      "compound_id": "BRD-K91701654",
+      "compound_name": "U-0126",
+      "smiles": "N#CC(=C(/N)Sc1ccccc1N)/C(C#N)=C(/N)Sc1ccccc1N"
+    }
+  ]
+}

@@ -1,0 +1,218 @@
+# ml/configs/lincs_multicell.yaml
+# ---------------------------------
+# Phase 3 configuration: multi-cell-line LINCS Level 5 expansion.
+#
+# Changes from baseline.yaml:
+#   - input_path points to parquet produced by ingest_lincs_level5.py
+#   - three cell lines instead of one
+#   - zscore-based labels instead of padj-filtered log2fc labels
+#   - MSigDB Hallmark features enabled alongside GO
+#   - LNCAPcorr column selection disabled (not meaningful cross-cell-line)
+#   - RandomForest retained; XGBoost added as challenger
+#   - held-out CMap validation config added
+
+# ---------------------------------------------------------------------------
+# Dataset
+# ---------------------------------------------------------------------------
+dataset:
+  # Parquet written by ingest_lincs_level5.py.
+  # Run: python -m signalforge_ml.ingest_lincs_level5 --out data/processed/lincs_multicell.parquet
+  input_path: data/processed/lincs_multicell.parquet
+
+  input_format: parquet           # parquet | csv
+
+  cell_lines:
+    - LNCAP
+    - MCF7
+    - PC3
+
+  # z-score threshold used during ingestion (must match ingest_lincs_level5 call).
+  # Rows below this threshold were already dropped at ingest time.
+  # Document it here for reproducibility.
+  zscore_thresh: 2.0
+
+  # Column carrying the continuous signal magnitude.
+  # Used for sample_weight in training (stronger signals get more weight).
+  signal_column: zscore
+
+  # Label column produced by ingest_lincs_level5.
+  # 1 = up-regulated, 0 = down-regulated.
+  label_column: label
+
+  # Optional: cap rows per (cell_line, compound) group to avoid
+  # a single well-profiled compound dominating the training set.
+  max_rows_per_group: null        # set to e.g. 200 to balance
+
+  # Columns that must be present in the parquet.
+  expected_columns:
+    - sig_id
+    - pert_id
+    - pert_iname
+    - cell_id
+    - gene_id
+    - gene_symbol
+    - zscore
+    - label
+    - source_dataset
+
+  optional_columns:
+    - pert_idose
+    - pert_itime
+    - distil_nsample
+
+
+# ---------------------------------------------------------------------------
+# Features
+# ---------------------------------------------------------------------------
+features:
+  # --- Compound vector ---
+  compound:
+    # Strategy for building the compound feature vector.
+    # morgan_smiles: compute Morgan FP from SMILES (requires rdkit)
+    # precomputed:   load from a CSV keyed by pert_id (faster, no rdkit)
+    # auto:          try precomputed first, fall back to SMILES
+    strategy: auto
+
+    precomputed_path: data/raw/inhouse_morgan_2048.csv
+    precomputed_id_col: pert_id
+
+    fingerprint_radius: 2
+    fingerprint_bits: 2048
+
+    # Column selection: path to a CSV with one column 'bit_index'.
+    # Set to null to use all bits (recommended for multi-cell since
+    # LNCAPcorr selection was LNCaP-specific).
+    corr_selection_path: null
+
+  # --- Gene vector ---
+  gene:
+    # gene_vector_strategy controls which annotation sources are combined.
+    # Options:
+    #   go_only        : GO binary vector only (Phase 2 behaviour)
+    #   hallmark_only  : MSigDB Hallmark binary vector only
+    #   hallmark_plus_go : concatenate both (recommended for Phase 3)
+    gene_vector_strategy: hallmark_plus_go
+
+    go:
+      # Path to GO annotation table (gene_id -> go_terms).
+      # Format: TSV with columns gene_id, go_term.
+      annotation_path: data/raw/go_annotations.tsv
+      # Minimum gene count per GO term to retain it as a feature.
+      min_genes_per_term: 10
+
+    hallmark:
+      # MSigDB Hallmark gene set GMT file.
+      # Download from: https://www.gsea-msigdb.org/gsea/msigdb/collections.jsp
+      # File: h.all.vX.X.symbols.gmt
+      gmt_path: data/raw/msigdb/h.all.v2023.2.Hs.symbols.gmt
+      # Weight type for the gene-to-hallmark matrix.
+      # binary: 1 if gene is in set, 0 otherwise (fast, interpretable)
+      # weighted: use normalised set membership score if available
+      weight_type: binary
+
+  # --- Feature selection ---
+  selection:
+    # Variance threshold: drop features with near-zero variance.
+    variance_threshold: 0.01
+    # Correlation-based redundancy removal across the full feature matrix.
+    # Disabled by default; set to true for large GO feature spaces.
+    use_corr_selection: false
+    corr_threshold: 0.95
+
+
+# ---------------------------------------------------------------------------
+# Training
+# ---------------------------------------------------------------------------
+training:
+  test_size: 0.2
+  random_state: 42
+  stratify: true
+
+  # Sample weights: abs(zscore) normalised by mean.
+  # Genes with strong signal dominate; borderline labels are down-weighted.
+  sample_weight_column: zscore
+  sample_weight_mode: abs_normalised   # abs_normalised | uniform
+
+  # Cell-line stratification: if true, train/test split is stratified by
+  # both label and cell_id to ensure each cell line appears in both splits.
+  stratify_by_cell_line: true
+
+  models:
+    # Primary model - retained from Phase 2.
+    rf_300:
+      type: RandomForestClassifier
+      enabled: true
+      params:
+        n_estimators: 300
+        class_weight: balanced
+        random_state: 42
+        n_jobs: -1
+
+    # Challenger - more trees, log2 feature sampling.
+    rf_500:
+      type: RandomForestClassifier
+      enabled: true
+      params:
+        n_estimators: 500
+        max_features: log2
+        class_weight: balanced
+        random_state: 42
+        n_jobs: -1
+
+    # XGBoost challenger - add only after RF baseline is established.
+    xgb:
+      type: XGBClassifier
+      enabled: false   # flip to true once RF baseline is confirmed
+      params:
+        n_estimators: 300
+        max_depth: 4
+        learning_rate: 0.05
+        subsample: 0.8
+        colsample_bytree: 0.8
+        use_label_encoder: false
+        eval_metric: logloss
+        random_state: 42
+        n_jobs: -1
+
+  # Promotion criteria: a new model must beat these to replace the current
+  # production model. Prevents noisy improvements from being promoted.
+  promotion_criteria:
+    min_accuracy: 0.71        # must beat Phase 2 baseline
+    min_macro_f1: 0.71
+    min_improvement: 0.01     # must improve by at least 1 pp
+
+
+# ---------------------------------------------------------------------------
+# Validation - held-out CMap
+# ---------------------------------------------------------------------------
+validation:
+  cmap:
+    enabled: false            # flip to true once CMap data is downloaded
+    # CMap perturbation signatures (held out - never used in training).
+    # Download from: https://clue.io/data/CMap2020
+    sig_path: data/raw/cmap/level5_beta_trt_cp_n720216x12328.gctx
+    sig_info_path: data/raw/cmap/siginfo_beta.txt
+    # Compounds to use for validation.
+    # null = all small-molecule compounds not in training set.
+    held_out_compounds: null
+    # Metrics to report.
+    metrics:
+      - sign_agreement        # fraction of genes where direction matches
+      - top_k_overlap         # overlap of top-K regulated genes
+      - pathway_agreement     # hallmark-level direction agreement
+      - reversal_rank_corr    # Spearman correlation of reversal scores
+    top_k: 50
+
+
+# ---------------------------------------------------------------------------
+# Output
+# ---------------------------------------------------------------------------
+output:
+  # Directory for trained model artefacts, metrics, and feature column lists.
+  model_dir: ml/models/phase3
+  # Save feature importance rankings for the best model.
+  save_feature_importance: true
+  # Save the feature column list (required for inference shape matching).
+  feature_columns_path: ml/models/phase3/feature_columns.json
+  # Metrics are written here for comparison across runs.
+  metrics_path: ml/manifests/phase3_metrics.json

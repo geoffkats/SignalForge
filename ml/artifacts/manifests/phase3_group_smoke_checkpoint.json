@@ -1,0 +1,11 @@
+{
+  "phase": "3_group_split_smoke",
+  "dataset": "gse92742_test_parquet",
+  "split": "compound_level_group",
+  "n_train": 5388,
+  "n_test": 1868,
+  "accuracy": 0.7955,
+  "macro_f1": 0.7927,
+  "max_iter": 10,
+  "note": "10 epochs only, not converged, real baseline pending full data"
+}

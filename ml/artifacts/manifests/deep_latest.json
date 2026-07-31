@@ -1,0 +1,43 @@
+{
+  "model_version": "signalforge-dual-encoder-v1",
+  "algorithm": "SignalForgeNet dual-encoder | compound=Morgan-2048 | gene=GO-1107 | zscore-threshold=3.0 | noise-filtered",
+  "pytorch_version": "2.11.0+cpu",
+  "artifact_path": "C:\\Users\\User\\Desktop\\backdoor\\ai-project\\ml\\artifacts\\models\\deep_dual_encoder.pt",
+  "compound_dim": 2048,
+  "gene_dim": 1107,
+  "n_train": 1226168,
+  "n_val": 157731,
+  "n_test": 246397,
+  "n_compounds": 13166,
+  "n_genes": 971,
+  "metrics": {
+    "0": {
+      "precision": 0.8782106759805891,
+      "recall": 0.8807833594246478,
+      "f1-score": 0.8794951363147427,
+      "support": 129034.0
+    },
+    "1": {
+      "precision": 0.8685045091251015,
+      "recall": 0.8657072501555004,
+      "f1-score": 0.8671036236707802,
+      "support": 117363.0
+    },
+    "accuracy": 0.8736023571715564,
+    "macro avg": {
+      "precision": 0.8733575925528453,
+      "recall": 0.8732453047900741,
+      "f1-score": 0.8732993799927615,
+      "support": 246397.0
+    },
+    "weighted avg": {
+      "precision": 0.8735874668479269,
+      "recall": 0.8736023571715564,
+      "f1-score": 0.8735928522023818,
+      "support": 246397.0
+    }
+  },
+  "accuracy": 0.8736023571715564,
+  "macro_f1": 0.8732993799927615,
+  "status": "trained"
+}

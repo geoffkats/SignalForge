@@ -1,0 +1,43 @@
+{
+  "model_version": "signalforge-dual-encoder-v1",
+  "algorithm": "SignalForgeNet dual-encoder | compound=Morgan-2048 | gene=GO-1107 | zscore-threshold=3.0 | noise-filtered",
+  "pytorch_version": "2.11.0+cpu",
+  "artifact_path": "artifacts\\models\\deep_dual_encoder_smoke.pt",
+  "compound_dim": 2048,
+  "gene_dim": 1107,
+  "n_train": 5960,
+  "n_val": 795,
+  "n_test": 1193,
+  "n_compounds": 60,
+  "n_genes": 934,
+  "metrics": {
+    "0": {
+      "precision": 0.8611481975967957,
+      "recall": 0.9148936170212766,
+      "f1-score": 0.8872077028885832,
+      "support": 705.0
+    },
+    "1": {
+      "precision": 0.8648648648648649,
+      "recall": 0.7868852459016393,
+      "f1-score": 0.8240343347639485,
+      "support": 488.0
+    },
+    "accuracy": 0.8625314333612741,
+    "macro avg": {
+      "precision": 0.8630065312308304,
+      "recall": 0.8508894314614579,
+      "f1-score": 0.8556210188262658,
+      "support": 1193.0
+    },
+    "weighted avg": {
+      "precision": 0.8626685107793756,
+      "recall": 0.8625314333612741,
+      "f1-score": 0.8613664592634184,
+      "support": 1193.0
+    }
+  },
+  "accuracy": 0.8625314333612741,
+  "macro_f1": 0.8556210188262658,
+  "status": "trained"
+}

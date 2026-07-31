@@ -85,7 +85,7 @@ def train_baseline(config: dict) -> dict:
 
     report = classification_report(y_test, predictions, output_dict=True, zero_division=0)
     manifest = {
-        "model_version": "baseline-logreg-v1",
+        "model_version": "baseline-rf-v1",
         "algorithm": (
             "Morgan fingerprint (LNCAPcorr-selected bits) + "
             "LINCS L1000 GO-term gene fingerprint (978 genes x 1107 GO terms) + "

@@ -1,0 +1,68 @@
+# ml/configs/deep_lincs.yaml
+# ---------------------------
+# Phase 3 PyTorch SignalForgeNet configuration
+# Target: 75-82%+ accuracy on up/down regulation prediction
+#
+# Architecture: dual-encoder
+#   compound_encoder: Linear(2048->256) + BN + ReLU + Dropout(0.3)
+#   gene_encoder:     Linear(GO_DIMS->256) + BN + ReLU + Dropout(0.3)
+#   classifier:       512->256->128->2
+
+# ---------------------------------------------------------------------------
+# Dataset
+# ---------------------------------------------------------------------------
+dataset:
+  input_path: data/processed/lincs_multicell_full.parquet
+
+  # z-score threshold used at ingest time (for documentation)
+  zscore_thresh: 3.0
+
+  # Columns expected in the parquet
+  expected_columns:
+    - sig_id
+    - pert_id
+    - pert_iname
+    - cell_id
+    - gene_id
+    - gene_symbol
+    - zscore
+    - label
+    - source_dataset
+
+# ---------------------------------------------------------------------------
+# Training
+# ---------------------------------------------------------------------------
+training:
+  test_size: 0.15
+  random_state: 42
+
+  # Deep training stability on large full LINCS table
+  feature_dtype: float16
+  use_scaler: false
+
+  batch_size: 512
+  learning_rate_init: 0.001
+  max_iter: 200
+  patience: 15
+  validation_fraction: 0.1
+
+  # Full-fidelity RF baseline (used by train_rf_lincs.py)
+  rf_max_rows: 500000
+  rf_n_estimators: 500
+  rf_max_depth: 30
+  rf_min_samples_leaf: 2
+  rf_max_samples: 0.7
+
+# ---------------------------------------------------------------------------
+# Artifacts
+# ---------------------------------------------------------------------------
+artifacts:
+  model_path: artifacts/models/deep_dual_encoder.pt
+  manifest_path: artifacts/manifests/deep_latest.json
+
+# ---------------------------------------------------------------------------
+# Promotion criteria (must beat to replace production model)
+# ---------------------------------------------------------------------------
+promotion:
+  min_accuracy: 0.85
+  min_macro_f1: 0.84
